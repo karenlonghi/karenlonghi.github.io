@@ -1,0 +1,1355 @@
+<title>Portfólio Karen Longhi</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<script>
+(function () {
+  var r = document.documentElement, s = null;
+  try { s = localStorage.getItem('portfolio-theme'); } catch (e) {}
+  r.setAttribute('data-theme', s === 'light' ? 'light' : 'dark');
+})();
+</script>
+<style>
+/* Layout: vazio escuro com luz violeta (estilo Unicorn Studio), blocos de tela cheia que encaixam ao rolar, cabeçalho com cartões que flutuam com o mouse. */
+:root {
+  --bg: #08080a;
+  --panel: #0d0d12;
+  --surface: #17171c;
+  --elev: #25252d;
+  --ink: #dad7de;
+  --muted: #aeaac0;
+  --faint: #8b8e9c;
+  --line: rgba(174, 170, 192, 0.22);
+  --edge: rgba(174, 170, 192, 0.34);
+  --accent: #ab8ff1;
+  --accent-deep: #8960f0;
+  --accent-ink: #08080a;
+  --dot: #62626f;
+  --cap: #31313a;
+  --aur-a: 142, 108, 228;
+  --aur-b: 114, 79, 201;
+  --aur-alpha: .34;
+  --f-display: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --f-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  color-scheme: dark;
+}
+/* tema claro, escolhido pelo botão */
+:root[data-theme="light"] {
+  --bg: #f4f4f7;
+  --panel: #ececf1;
+  --surface: #ffffff;
+  --elev: #e6e6ee;
+  --ink: #0d0d12;
+  --muted: #4a4a58;
+  --faint: #6b6b7a;
+  --line: rgba(13, 13, 18, 0.14);
+  --edge: rgba(13, 13, 18, 0.24);
+  --accent: #7a4fe0;
+  --accent-deep: #5f33c8;
+  --accent-ink: #ffffff;
+  --dot: #9a9aa8;
+  --cap: rgba(13, 13, 18, 0.35);
+  --aur-alpha: .16;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-snap-type: y proximity; scroll-padding-top: 60px; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-inline: 0;
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, p, dl, dd, figure { margin: 0; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; }
+
+.wrap { width: 100%; max-width: 1120px; margin-inline: auto; padding-inline: clamp(16px, 4vw, 32px); }
+.mono { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* nav */
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 60px; }
+.nav .brand { font-family: var(--f-mono); font-size: 13px; text-decoration: none; letter-spacing: 0.02em; }
+.nav .links { display: flex; align-items: center; gap: clamp(14px, 2.4vw, 28px); }
+.nav .links a { font-size: 14px; text-decoration: none; color: var(--muted); transition: color .2s; }
+.nav .links a:hover { color: var(--ink); }
+.toggle {
+  font: inherit; font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.04em;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: border-color .2s;
+}
+.toggle:hover { border-color: var(--ink); }
+.toggle i { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--ink); background: linear-gradient(90deg, var(--ink) 50%, transparent 50%); display: block; }
+
+/* hero */
+.hero {
+  display: grid; grid-template-columns: minmax(0, 1fr); align-content: center;
+  gap: clamp(36px, 6vw, 56px);
+  min-height: calc(100svh - 60px);
+  padding-block: clamp(32px, 6vw, 72px);
+  scroll-snap-align: start;
+  transition: opacity .7s ease;
+}
+@media (min-width: 980px) { .hero { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); align-items: center; gap: 48px; } }
+.hero-text { min-width: 0; }
+.status { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); }
+.status .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); position: relative; }
+.status .pulse::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); animation: ping 2.2s ease-out infinite; }
+@keyframes ping { from { transform: scale(1); opacity: .6; } to { transform: scale(3.2); opacity: 0; } }
+.hero h1 {
+  margin-top: 12px;
+  font-size: clamp(2rem, 8vw, 3rem);
+  line-height: 0.98;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+@media (min-width: 980px) { .hero h1 { font-size: clamp(2.1rem, 3.9vw, 2.9rem); } }
+.hero .line { display: block; overflow: hidden; padding-bottom: 0.09em; margin-bottom: -0.09em; }
+.hero .line > span { display: block; animation: rise .95s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 100ms + 100ms); }
+.hero .soft { color: var(--muted); }
+.hero .hl { color: var(--accent); }
+@keyframes rise { from { transform: translateY(105%); } to { transform: none; } }
+.hero .who { margin-top: 22px; font-family: var(--f-display); font-size: 1.2rem; font-weight: 500; letter-spacing: -0.01em; }
+.hero .lede { margin-top: 26px; max-width: 54ch; font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: var(--muted); animation: fade .9s ease both .65s; }
+.hero .lede-a { display: block; margin-bottom: 10px; font-family: var(--f-display); font-size: clamp(1.3rem, 2.2vw, 1.6rem); font-weight: 500; letter-spacing: -0.015em; line-height: 1.25; color: var(--ink); }
+.hero .cta { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; animation: fade .9s ease both .8s; }
+@keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 22px; border-radius: 999px;
+  border: 1px solid var(--ink); color: var(--ink); background: transparent;
+  text-decoration: none; font-weight: 500; font-size: 15px;
+  transition: background .25s, color .25s, transform .25s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn.primary { background: var(--ink); color: var(--bg); }
+.btn.primary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn:not(.primary):hover { background: var(--ink); color: var(--bg); }
+
+/* cartões do cabeçalho */
+.stage { position: relative; height: clamp(400px, 52vw, 540px); perspective: 900px; animation: fade 1s ease both .5s; }
+.fc { position: absolute; z-index: var(--z, 1); will-change: transform; }
+.fc-a { left: 0; top: 8%; width: 64%; height: 46%; --z: 2; }
+.fc-b { right: 0; top: 0; width: 44%; height: 38%; --z: 3; }
+.fc-c { right: 3%; top: 44%; width: 42%; height: 46%; --z: 4; }
+.fc-d { left: 8%; bottom: 0; width: 62%; height: 24%; --z: 5; }
+.fc:hover { z-index: 9; }
+.fc-in { width: 100%; height: 100%; animation: float 7s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+.card {
+  height: 100%; display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 22px 40px -24px rgba(0, 0, 0, .55);
+  animation: pop .9s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(var(--d, 0s) + .5s);
+  transition: transform .4s cubic-bezier(.2,.8,.2,1), border-color .3s, box-shadow .4s;
+}
+@keyframes pop { from { opacity: 0; transform: translateY(24px) scale(.96); } }
+.fc:hover .card { transform: scale(1.045); border-color: var(--accent); box-shadow: 0 30px 50px -22px rgba(0, 0, 0, .7); }
+.cap { display: flex; align-items: center; gap: 8px; flex: none; padding: 7px 10px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cap::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+.cbody { position: relative; flex: 1; min-height: 0; padding: 8px; }
+.cbody.flush { padding: 0; }
+.cbody canvas { display: block; width: 100%; height: 100%; }
+.fitlbl { position: absolute; right: 10px; bottom: 7px; font-size: 10px; color: var(--accent); pointer-events: none; text-transform: none; letter-spacing: .02em; }
+.viz { width: 100%; height: 100%; display: block; }
+.viz .ax { stroke: var(--line); stroke-width: 1; }
+.viz .lbl { fill: var(--muted); font: 8px var(--f-mono); }
+.viz .bar { fill: var(--dot); transform-box: fill-box; transform-origin: 50% 100%; animation: grow 1.1s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(.9s + var(--bi, 0) * .12s); }
+.viz .bar.hi { fill: var(--accent); }
+@keyframes grow { from { transform: scaleY(0); } }
+.viz .face { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.viz .brk { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: square; }
+.viz .scan { stroke: var(--accent); stroke-width: 1.2; opacity: .7; animation: scan 2.6s ease-in-out infinite alternate; }
+@keyframes scan { from { transform: translateY(0); } to { transform: translateY(78px); } }
+.viz .tagt { fill: var(--accent); font: 8.5px var(--f-mono); }
+.flow { display: flex; align-items: center; gap: 5px; height: 100%; padding: 8px 10px; font-family: var(--f-mono); font-size: 9.5px; }
+.flow span { border: 1px solid var(--line); border-radius: 4px; padding: 4px 6px; color: var(--ink); background: var(--bg); white-space: nowrap; }
+.flow span:last-child { border-color: var(--accent); color: var(--accent); }
+.flow i { flex: 1; min-width: 6px; height: 2px; opacity: .7; background: repeating-linear-gradient(90deg, var(--accent) 0 4px, transparent 4px 8px); background-size: 8px 2px; animation: dash 1s linear infinite; }
+@keyframes dash { to { background-position: 8px 0; } }
+
+/* sections */
+.sec { border-top: 1px solid var(--line); padding-block: clamp(56px, 9vw, 112px); min-height: 100svh; display: flex; align-items: center; scroll-snap-align: start; }
+.grid2 { display: grid; gap: 28px; grid-template-columns: 1fr; }
+@media (min-width: 860px) { .grid2 { grid-template-columns: 200px minmax(0, 1fr); gap: 48px; } }
+.label { color: var(--muted); display: flex; gap: 12px; align-items: baseline; }
+.label small { font-family: var(--f-mono); font-size: 12px; font-variant-numeric: tabular-nums; color: var(--accent); }
+@media (min-width: 860px) { .label { position: sticky; top: 88px; align-self: start; } }
+.content { min-width: 0; display: flex; flex-direction: column; gap: 40px; }
+.content h2 { font-size: clamp(1.8rem, 3.8vw, 2.8rem); line-height: 1.08; letter-spacing: -0.025em; font-weight: 600; max-width: 22ch; }
+.sec > .wrap { transition: opacity .7s ease; }
+
+/* sobre */
+.about p { max-width: 62ch; color: var(--muted); font-size: 1.08rem; }
+.about p + p { margin-top: 16px; }
+.fronts { display: grid; gap: 32px; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .fronts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 28px; } }
+@media (min-width: 1180px) { .fronts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.fronts li { border-top: 1px solid var(--ink); padding-top: 16px; }
+.fronts h3 { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+.fronts p { margin-top: 8px; font-size: .98rem; color: var(--muted); }
+.edu { display: grid; gap: 10px; color: var(--muted); font-size: .98rem; }
+.edu p { display: flex; flex-wrap: wrap; gap: 2px 20px; }
+.xp { display: grid; gap: 16px 32px; grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--ink); padding-top: 22px; }
+@media (min-width: 720px) { .xp { grid-template-columns: 190px minmax(0, 1fr); } }
+.xp .when { color: var(--muted); font-variant-numeric: tabular-nums; }
+.xp h3 { font-size: clamp(1.4rem, 2.6vw, 1.8rem); font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; }
+.xp .role { color: var(--muted); margin-top: 4px; }
+.xp .pts { margin-top: 18px; display: grid; gap: 10px; max-width: 62ch; color: var(--muted); }
+.xp .pts li { padding-left: 20px; position: relative; }
+.xp .pts li::before { content: ""; position: absolute; left: 0; top: .78em; width: 10px; height: 1px; background: var(--accent); }
+.edu strong { color: var(--ink); font-weight: 500; }
+
+/* projetos */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filters button {
+  font: inherit; font-size: 14px; cursor: pointer;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 7px 16px;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.filters button:hover { border-color: var(--ink); }
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.projects { border-bottom: 1px solid var(--line); margin-top: -8px; }
+.proj {
+  display: grid; gap: 14px 24px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "meta" "main" "res" "links";
+  padding-block: 30px;
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 960px) {
+  .proj { grid-template-columns: 150px minmax(0, 1fr) 170px 110px; grid-template-areas: "meta main res links"; }
+}
+.proj.enter { animation: fade .5s ease both; }
+.p-meta { grid-area: meta; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.p-meta .cat { color: var(--ink); }
+.p-meta .ex { color: var(--muted); font-size: 11px; border: 1px dashed var(--line); border-radius: 3px; padding: 1px 6px; }
+.p-meta .org { color: var(--muted); font-size: 11px; border: 1px solid var(--line); border-radius: 3px; padding: 1px 6px; }
+.p-main { grid-area: main; min-width: 0; }
+.p-main h3 { font-size: clamp(1.25rem, 2.2vw, 1.55rem); font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; transition: transform .35s cubic-bezier(.2,.8,.2,1), color .25s; }
+.proj:hover h3 { transform: translateX(8px); color: var(--accent); }
+.p-main p { margin-top: 8px; color: var(--muted); font-size: 1rem; max-width: 56ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.chips li { font-family: var(--f-mono); font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 3px; padding: 2px 8px; }
+.p-res { grid-area: res; display: flex; flex-direction: column; }
+.p-res strong { font-family: var(--f-display); font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.p-res span { font-size: .88rem; color: var(--muted); }
+.p-links { grid-area: links; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: flex-start; }
+@media (min-width: 960px) { .p-links { flex-direction: column; align-items: flex-end; } }
+.p-links a { font-size: 14px; text-decoration: none; border-bottom: 1px solid var(--line); transition: border-color .2s, color .2s; }
+.p-links a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* certificados */
+.certs { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+.cert {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+  padding: 22px; display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s;
+}
+.cert:hover { transform: translateY(-4px); border-color: var(--accent); }
+.cert .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--muted); margin-bottom: 18px; }
+.cert .top .ex { font-size: 11px; border: 1px dashed var(--line); border-radius: 3px; padding: 1px 6px; }
+.cert .yr { font-variant-numeric: tabular-nums; }
+.cert h3 { font-size: 1.15rem; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
+.cert .org { color: var(--muted); font-size: .95rem; }
+.cert a { margin-top: auto; padding-top: 18px; font-size: 14px; text-decoration: none; color: var(--ink); }
+.cert a span { display: inline-block; border-bottom: 1px solid var(--line); transition: border-color .2s, color .2s; }
+.cert a:hover span { border-color: var(--accent); color: var(--accent); }
+
+/* stack */
+.stack { display: grid; gap: 28px; }
+.stack div { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .stack div { grid-template-columns: 170px minmax(0, 1fr); align-items: baseline; } }
+.stack dt { color: var(--muted); }
+.stack dd { display: flex; flex-wrap: wrap; gap: 8px; }
+.stack span {
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: .95rem;
+  transition: background .2s, color .2s, border-color .2s, transform .2s; cursor: default;
+}
+.stack span:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); transform: translateY(-2px); }
+
+/* contato */
+.contact .big { font-family: var(--f-display); font-size: clamp(1.4rem, 4.6vw, 2.8rem); letter-spacing: -0.025em; font-weight: 500; overflow-wrap: anywhere; user-select: all; }
+.copyrow { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.copy { font: inherit; font-family: var(--f-mono); font-size: 12px; cursor: pointer; background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; transition: border-color .2s; }
+.copy:hover { border-color: var(--ink); }
+.social { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* rodapé */
+.foot { border-top: 1px solid var(--line); padding-block: 28px calc(28px + env(safe-area-inset-bottom, 0px)); }
+.foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; color: var(--muted); font-size: 14px; }
+.foot .ia { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); }
+.foot .ia i { width: 8px; height: 8px; background: var(--accent); display: block; }
+
+/* revelar ao rolar */
+[data-reveal] { transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--i, 0) * 70ms); }
+[data-reveal].pre { opacity: 0; transform: translateY(20px); }
+
+.roles { display: flex; flex-wrap: wrap; gap: 6px 0; margin-top: 36px; color: var(--muted); font-size: 11px; animation: fade .9s ease both .95s; }
+.roles li { display: flex; align-items: center; }
+.roles li:not(:last-child)::after { content: "·"; margin-inline: 14px; color: var(--accent); }
+.diff { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 26px; animation: fade .9s ease both 1.1s; }
+.diff-l { color: var(--accent); }
+.diff ul { display: flex; flex-wrap: wrap; gap: 8px; }
+.diff li { font-size: .95rem; font-weight: 500; color: var(--ink); border: 1px solid var(--accent); border-radius: 999px; padding: 6px 15px; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.edge { border: 1px solid var(--accent); border-radius: 8px; padding: 22px; background: color-mix(in srgb, var(--accent) 7%, var(--surface)); }
+.edge-l { color: var(--accent); }
+.edge-grid { display: grid; gap: 22px 28px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); margin-top: 14px; }
+.edge h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+.edge p:not(.edge-l) { margin-top: 6px; color: var(--muted); font-size: .98rem; }
+.xs { display: grid; gap: 22px 28px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .xs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.xs li { border-top: 1px solid var(--line); padding-top: 14px; }
+.xs li.hi, .fronts li:first-child { border-top-color: var(--accent); }
+.xs h3 { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; }
+.xs p { margin-top: 6px; color: var(--muted); font-size: .98rem; }
+.roles li:first-child { color: var(--ink); }
+.stack { gap: 20px; }
+.label .idx { color: var(--accent); font-variant-numeric: tabular-nums; }
+.uses { min-height: 3.2em; color: var(--muted); font-size: 12px; letter-spacing: .02em; text-transform: none; transition: color .2s; }
+.stack span[data-uses]:not([data-uses=""]) { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+
+.beat { display: flex; flex-wrap: wrap; gap: 0 .45em; margin-top: 30px; font-family: var(--f-display); font-size: clamp(1.15rem, 2.2vw, 1.5rem); font-weight: 500; letter-spacing: -0.01em; }
+.beat span { display: inline-block; color: var(--muted); animation: beatin .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(1s + var(--i) * 140ms); }
+.beat span:last-child { color: var(--accent); }
+@keyframes beatin { from { opacity: 0; transform: translateY(60%); } }
+.skip { position: absolute; left: -9999px; top: 8px; }
+.skip:focus { left: 16px; z-index: 50; background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 6px; font-size: 14px; }
+
+/* console SQL */
+.term { max-width: 720px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); overflow: hidden; }
+.term-bar { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+.term-out { height: 150px; overflow: auto; padding: 12px; font-family: var(--f-mono); font-size: 12px; line-height: 1.55; white-space: pre; color: var(--ink); }
+.term-out .cmd { color: var(--muted); }
+.term-out .err { color: var(--accent); }
+.term-in { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-top: 1px solid var(--line); }
+.term-in:focus-within { border-top-color: var(--accent); }
+.term-in .prompt { color: var(--accent); text-transform: none; letter-spacing: 0; white-space: nowrap; }
+.term-in input { flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: var(--ink); font: 12px var(--f-mono); }
+.term-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 12px; }
+.term-chips button { font: 11px var(--f-mono); color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 4px; padding: 3px 8px; cursor: pointer; transition: color .2s, border-color .2s; }
+.term-chips button:hover { color: var(--ink); border-color: var(--accent); }
+@media (hover: none) { .term-in input { font-size: 16px; } }
+
+/* seletor de idioma */
+.lang-sw { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.lang-sw button { font: inherit; font-family: var(--f-mono); font-size: 11px; letter-spacing: .04em; color: var(--muted); background: transparent; border: 0; padding: 6px 9px; cursor: pointer; transition: background .2s, color .2s; }
+.lang-sw button:hover { color: var(--ink); }
+.lang-sw button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+/* idiomas */
+.langs { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); }
+.lang { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; transition: transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s; }
+.lang:hover { transform: translateY(-4px); border-color: var(--accent); }
+.lang .hello { font-family: var(--f-display); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; color: var(--accent); margin-bottom: 14px; }
+.lang h3 { font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+.lang .lv { color: var(--muted); font-size: .95rem; }
+.meter { display: flex; gap: 5px; margin-top: 16px; }
+.meter i { flex: 1; height: 6px; border-radius: 3px; background: var(--line); display: block; }
+.meter i.f { background: var(--accent); transition: background .5s ease; transition-delay: calc(var(--k) * 110ms); }
+.js-snap .sec:not(.on) .meter i.f { background: var(--line); }
+.lang.goal { border-style: dashed; background: transparent; }
+.lang.goal .hello { color: var(--muted); }
+.lang.goal:hover .hello { color: var(--accent); }
+
+@media (max-width: 520px) { .toggle span { display: none; } .toggle { padding: 6px 9px; } }
+
+/* animações extras */
+.progress { position: absolute; left: 0; bottom: -1px; width: 100%; height: 2px; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); pointer-events: none; }
+.spot { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .5s ease; background: radial-gradient(440px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 13%, transparent), transparent 70%); }
+.marquee { grid-column: 1 / -1; overflow: hidden; border-block: 1px solid var(--line); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); animation: fade 1s ease both 1.2s; }
+.mq-track { display: flex; width: max-content; animation: mq 46s linear infinite; }
+.marquee:hover .mq-track { animation-play-state: paused; }
+.mq-track span { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); white-space: nowrap; padding: 12px 0 12px 22px; }
+.mq-track span::after { content: "/"; margin-left: 22px; color: var(--accent); }
+@keyframes mq { to { transform: translateX(-50%); } }
+.content h2[data-reveal] { transition: clip-path 1s cubic-bezier(.2,.7,.2,1), opacity .8s ease; clip-path: inset(-.2em -2% -.2em -2%); }
+.content h2[data-reveal].pre { opacity: 1; transform: none; clip-path: inset(-.2em 100% -.2em 0); }
+.proj:not(.pre) .chips li, .stack > div:not(.pre) dd span { animation: chipin .55s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(var(--n, 0) * 55ms); }
+@keyframes chipin { from { opacity: 0; transform: translateY(8px) scale(.96); } }
+
+/* bloco ativo em destaque */
+.js-snap .hero:not(.on), .js-snap .sec:not(.on) > .wrap { opacity: .22; }
+
+/* navegação lateral por blocos */
+.dots { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 15; display: none; flex-direction: column; gap: 14px; }
+@media (min-width: 1180px) { .dots { display: flex; } }
+.dots a { position: relative; display: block; width: 8px; height: 8px; border-radius: 999px; border: 1px solid var(--ink); transition: height .3s, background .3s, border-color .3s; }
+.dots a.on { height: 26px; background: var(--accent); border-color: var(--accent); }
+.dots a span { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s; font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.dots a:hover span, .dots a:focus-visible span { opacity: 1; }
+
+@media (max-width: 900px) { .nav .links a:not(.keep) { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; scroll-snap-type: none; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ===== Estilo Unicorn Studio: vazio escuro, tipografia apertada, violeta como único sinal cromático ===== */
+::selection { background: rgba(171, 143, 241, .35); color: var(--ink); }
+body { font-size: 16px; line-height: 1.4; letter-spacing: -0.01em; }
+:is(h1, h2, h3, strong) { font-weight: 500 !important; }
+.wrap { max-width: 1200px; }
+.sec { padding-block: clamp(56px, 8vw, 96px); }
+
+/* aurora */
+main { position: relative; isolation: isolate; }
+.aurora { position: absolute; z-index: -1; top: 0; left: 0; right: 0; height: min(110svh, 980px); pointer-events: none; overflow: hidden; }
+.aurora::before, .aurora::after { content: ""; position: absolute; border-radius: 50%; }
+.aurora::before { left: 50%; bottom: -38%; width: 130%; aspect-ratio: 1.6; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(var(--aur-a), var(--aur-alpha)), rgba(var(--aur-b), calc(var(--aur-alpha) * .38)) 55%, transparent 100%); animation: aurora 16s ease-in-out infinite alternate; }
+.aurora::after { left: 6%; bottom: -26%; width: 60%; aspect-ratio: 1.3; background: radial-gradient(closest-side, rgba(171, 143, 241, calc(var(--aur-alpha) * .6)), transparent 100%); animation: aurora2 21s ease-in-out infinite alternate; }
+@keyframes aurora { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-46%) translateY(-3%) scale(1.09); } }
+@keyframes aurora2 { from { transform: translate(0, 0); } to { transform: translate(14%, -6%); } }
+
+/* tipografia de exibição */
+.hero h1 { font-size: clamp(2.3rem, 9vw, 3.4rem); line-height: 1; letter-spacing: -0.05em; }
+@media (min-width: 980px) { .hero h1 { font-size: clamp(2.6rem, 4.4vw, 3.4rem); } }
+.hero .line { padding-bottom: .12em; margin-bottom: -.12em; }
+.hero .soft { color: var(--faint); }
+.hero .hl { color: var(--ink); }
+.hero .who { letter-spacing: -0.03em; }
+.content h2 { font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.02; letter-spacing: -0.04em; }
+.fronts h3, .xs h3, .xp h3, .p-main h3, .cert h3, .lang h3, .edge h3 { letter-spacing: -0.02em; }
+.p-res strong { letter-spacing: -0.03em; }
+.beat span { color: var(--faint); }
+.beat span:last-child { color: var(--ink); }
+
+/* selo do topo */
+.status.mono { font-family: var(--f-body); font-size: 13px; letter-spacing: -0.01em; text-transform: none; padding: 5px 10px; border: 1px solid var(--edge); border-radius: 3px; background: var(--bg); color: var(--muted); }
+
+/* rótulos discretos */
+.label, .cap, .xp .when, .term-bar, .stack dt, .cert .top, .p-meta .org, .diff-l, .edge-l, .p-res span, .roles { color: var(--faint); }
+.label .idx, .label small { color: var(--faint); }
+.roles li:first-child { color: var(--ink); }
+.roles li:not(:last-child)::after { color: var(--faint); }
+.fitlbl { color: var(--muted); }
+
+/* botões: 3px, creme primário com aresta escura */
+.btn { border-radius: 3px; padding: 10px 18px; font-size: 14px; letter-spacing: -0.01em; border-color: var(--faint); color: var(--muted); background: transparent; }
+.btn:not(.primary):hover { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); box-shadow: var(--cap) 0 -1px 0 0; }
+.btn.primary:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); opacity: .88; }
+.toggle, .lang-sw, .copy, .filters button, .diff li, .stack span, .term-chips button { border-radius: 3px; }
+.toggle, .lang-sw, .copy { border-color: var(--edge); }
+.filters button { border-color: var(--edge); }
+.filters button:hover, .copy:hover, .toggle:hover { border-color: var(--ink); }
+
+/* cartões: 10px, borda pérola translúcida, hover por mudança de superfície */
+.card, .cert, .lang, .edge, .term { border-radius: 10px; }
+.cert, .lang { padding: 30px; border-color: var(--edge); }
+.edge { padding: 30px; background: var(--surface); border-color: var(--edge); }
+.term { border-color: var(--edge); }
+.term-bar { background: var(--panel); }
+.cert:hover, .lang:hover { border-color: var(--muted); background: var(--elev); }
+.lang.goal:hover { background: transparent; }
+.lang .hello { color: var(--ink); }
+.lang.goal .hello, .lang.goal:hover .hello { color: var(--faint); }
+.meter i.f { background: var(--ink); }
+.card { border-color: var(--edge); box-shadow: rgba(0, 0, 0, .4) 0 2px 4px -1.5px, rgba(0, 0, 0, .25) 0 1px 4px 0; }
+.fc:hover .card { border-color: var(--muted); box-shadow: rgba(0, 0, 0, .4) 0 2px 4px -1.5px, rgba(0, 0, 0, .25) 0 1px 4px 0; }
+.card, .flow span { background: var(--surface); }
+.flow span { border-radius: 3px; background: var(--bg); }
+.skip:focus { border-radius: 3px; }
+
+/* diferenciais e destaques sem cor de estado */
+.diff li { border-color: var(--edge); background: var(--surface); color: var(--ink); }
+.xs li.hi, .fronts li:first-child { border-top-color: var(--ink); }
+.xp .pts li::before { background: var(--faint); }
+
+/* hover sem cor: troca de superfície e opacidade da borda */
+.proj:hover h3 { color: inherit; }
+.stack span:hover { background: var(--elev); color: var(--ink); border-color: var(--muted); }
+.term-chips button:hover { border-color: var(--muted); color: var(--ink); }
+
+/* links: texto pérola com sublinhado violeta */
+.p-links a { border-bottom-color: var(--accent); color: var(--muted); }
+.p-links a:hover { border-bottom-color: var(--accent-deep); color: var(--ink); }
+
+/* navegação lateral e faixa */
+.dots a { border-radius: 1px; border-color: var(--faint); }
+.dots a.on { background: var(--ink); border-color: var(--ink); }
+.mq-track span::after { color: var(--faint); }
+.content h2 { max-width: 26ch; }
+
+.xp .stat { display: flex; align-items: baseline; gap: 12px; margin-top: 14px; max-width: 52ch; }
+.xp .stat strong { font-family: 'Inter Tight', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.03em; line-height: 1; color: var(--accent); }
+.xp .stat span { color: var(--muted); font-size: 0.92rem; line-height: 1.35; }
+.cases { grid-column: 1 / -1; display: grid; gap: 16px; margin-top: 28px; grid-template-columns: minmax(0, 1fr); }
+.cases-l { color: var(--muted); }
+@media (min-width: 900px) { .cases { grid-template-columns: 1.4fr 1fr; } .cases-l { grid-column: 1 / -1; } }
+.case { background: var(--surface); border: 1px solid var(--edge); border-radius: 10px; padding: 30px; display: flex; flex-direction: column; gap: 14px; align-content: start; }
+.case h3 { font-size: 1.3rem; letter-spacing: -0.015em; }
+.case > p { color: var(--muted); }
+.steps { list-style: none; counter-reset: st; display: grid; gap: 8px; padding: 0; margin: 4px 0; }
+.steps li { counter-increment: st; display: grid; grid-template-columns: 32px 1fr; gap: 10px; align-items: baseline; font-size: 0.94rem; }
+.steps li::before { content: counter(st, decimal-leading-zero); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); }
+.outcome { border-top: 1px solid var(--line); padding-top: 12px; }
+.outcome .mono { color: var(--accent); margin-right: 8px; }
+
+.viz.er text { fill: var(--muted); font: 7px var(--f-mono); }
+.viz.er .tb rect:not(.th) { fill: var(--bg); stroke: var(--line); stroke-width: 1; }
+.viz.er .th { fill: var(--elev, var(--line)); stroke: none; }
+.viz.er .th.hi { fill: var(--accent); }
+.viz.er .tt { fill: var(--ink); font-weight: 600; }
+.viz.er .th.hi + .tt { fill: var(--bg); }
+.viz.er .k { fill: var(--accent); }
+.viz.er .tb { animation: erin .8s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(.9s + var(--bi, 0) * .15s); }
+@keyframes erin { from { opacity: 0; transform: translateY(6px); } }
+.viz .rel { fill: none; stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 4 3; opacity: .8; animation: dash2 1.2s linear infinite; }
+@keyframes dash2 { to { stroke-dashoffset: -14; } }
+.viz .lm { fill: var(--accent); animation: lmin .5s ease backwards, lmp 2.4s ease-in-out infinite; animation-delay: calc(1s + var(--li, 0) * .12s), calc(1.8s + var(--li, 0) * .2s); }
+@keyframes lmin { from { opacity: 0; transform: scale(0); } }
+@keyframes lmp { 50% { opacity: .45; } }
+.viz .mesh { fill: none; stroke: var(--accent); stroke-width: .7; opacity: .55; }
+@media (prefers-reduced-motion: reduce) { .viz .rel, .viz .lm { animation: none; } }
+</style>
+
+<a class="skip" href="#sobre" data-i18n="skip">Pular para o conteúdo</a>
+
+<nav class="nav" aria-label="Principal">
+  <div class="wrap">
+    <a class="brand" href="#topo">Karen Longhi</a>
+    <div class="links">
+      <a href="#sobre" data-i18n="nav.sobre">Sobre</a>
+      <a href="#experiencia" data-i18n="nav.exp">Experiência</a>
+      <a href="#projetos" data-i18n="nav.proj">Projetos</a>
+      <a href="#certificados" data-i18n="nav.cert">Certificados</a>
+      <a href="#stack">Stack</a>
+      <a href="#idiomas" data-i18n="nav.idiomas">Idiomas</a>
+      <a class="keep" href="#contato" data-i18n="nav.contato">Contato</a>
+      <div class="lang-sw" role="group"><button type="button" data-l="pt" aria-pressed="true">PT</button><button type="button" data-l="en" aria-pressed="false">EN</button><button type="button" data-l="es" aria-pressed="false">ES</button></div>
+      <button class="toggle" id="theme" type="button" aria-label="Alternar tema claro e escuro"><i></i><span id="themeLabel">tema</span></button>
+    </div>
+  </div>
+  <span class="progress" id="progress" aria-hidden="true"></span>
+</nav>
+
+<nav class="dots" aria-label="Seções">
+  <a href="#topo" aria-label="Início"><span data-i18n="nav.inicio">Início</span></a>
+  <a href="#sobre" aria-label="Sobre"><span data-i18n="nav.sobre">Sobre</span></a>
+  <a href="#experiencia" aria-label="Experiência"><span data-i18n="nav.exp">Experiência</span></a>
+  <a href="#projetos" aria-label="Projetos"><span data-i18n="nav.proj">Projetos</span></a>
+  <a href="#certificados" aria-label="Certificados"><span data-i18n="nav.cert">Certificados</span></a>
+  <a href="#stack" aria-label="Stack"><span>Stack</span></a>
+  <a href="#idiomas" aria-label="Idiomas"><span data-i18n="nav.idiomas">Idiomas</span></a>
+  <a href="#contato" aria-label="Contato"><span data-i18n="nav.contato">Contato</span></a>
+</nav>
+
+<div class="spot" id="spot" aria-hidden="true"></div>
+
+<main>
+  <div class="aurora" aria-hidden="true"></div>
+  <header class="hero wrap on" id="topo">
+    <div class="hero-text">
+      <p class="status mono"><span class="pulse"></span><span data-i18n="hero.status">Disponível para novas oportunidades</span></p>
+      <p class="who">Karen Longhi</p>
+      <h1>
+        <span class="line"><span style="--i:0" data-i18n="hero.l1">Automatizo processos,</span></span>
+        <span class="line soft"><span style="--i:1" data-i18n="hero.l2">estruturo seus dados</span></span>
+        <span class="line"><span style="--i:2" class="hl" data-i18n="hero.l3">e crio sites com IA.</span></span>
+      </h1>
+      <p class="lede"><span class="lede-a" data-i18n="hero.lede1">Reduzo trabalho manual com automação, dados confiáveis e IA.</span><span data-i18n="hero.lede2">Desenvolvo chatbots e automações para processos logísticos e internos, integrados a APIs, IA e bancos de dados. Atuo também com tratamento de dados, dashboards em Power BI e modelagem e manutenção de bancos de dados. Formada em Data Science pela FIAP.</span></p>
+      <div class="cta">
+        <a class="btn primary" href="#projetos" data-i18n="hero.cta1">Ver projetos</a>
+        <a class="btn" href="#contato" data-i18n="hero.cta2">Entrar em contato</a>
+      </div>
+      <p class="beat"><span style="--i:0" data-i18n="beat1">Dados.</span><span style="--i:1" data-i18n="beat2">Automação.</span><span style="--i:2" data-i18n="beat3">Decisão.</span></p>
+      <ul class="roles mono" aria-label="Áreas de atuação"><li data-i18n="role.auto">Automação</li><li data-i18n="role.da">Análise de Dados</li><li data-i18n="role.de">Engenharia de Dados</li><li data-i18n="role.ds">Ciência de Dados</li></ul>
+      <div class="diff"><span class="mono diff-l" data-i18n="diff.label">Diferenciais</span><ul><li data-i18n="diff.people">Experiência em suporte a clientes</li><li data-i18n="diff.lang">Português, inglês e espanhol</li><li data-i18n="ch.team">Trabalho em equipe</li><li data-i18n="diff.crit">Pensamento crítico</li><li data-i18n="diff.ai">Desenvolvimento de sites com IA</li></ul></div>
+    </div>
+
+    <div class="stage" id="stage" aria-hidden="true">
+      <div class="fc fc-a" data-depth="0.7">
+        <div class="fc-in" style="--d:0s"><figure class="card" style="--d:0s">
+          <figcaption class="cap mono" data-i18n="cap.scatter">dispersão · regressão linear</figcaption>
+          <div class="cbody"><canvas id="plot"></canvas><span class="fitlbl mono" id="fit"></span></div>
+        </figure></div>
+      </div>
+
+      <div class="fc fc-b" data-depth="1.3">
+        <div class="fc-in" style="--d:-2s"><figure class="card" style="--d:.15s">
+          <figcaption class="cap mono" data-i18n="cap.db">modelo de dados · ER</figcaption>
+          <div class="cbody">
+            <svg class="viz er" viewBox="0 0 220 120" role="img" aria-label="Diagrama de modelo de banco de dados com as tabelas drivers, trucks e readings">
+              <path class="rel" d="M70 28 H94 V46 H118"/>
+              <path class="rel" d="M70 84 H94 V70 H118"/>
+              <g class="tb" style="--bi:0"><rect x="6" y="8" width="64" height="44" rx="3"/><rect class="th" x="6" y="8" width="64" height="12" rx="3"/><text class="tt" x="12" y="17">drivers</text><text x="12" y="31"><tspan class="k">PK</tspan> id</text><text x="12" y="40">cpf</text><text x="12" y="49">phone</text></g>
+              <g class="tb" style="--bi:1"><rect x="6" y="66" width="64" height="36" rx="3"/><rect class="th" x="6" y="66" width="64" height="12" rx="3"/><text class="tt" x="12" y="75">trucks</text><text x="12" y="89"><tspan class="k">PK</tspan> id</text><text x="12" y="98">plate</text></g>
+              <g class="tb" style="--bi:2"><rect x="118" y="14" width="96" height="92" rx="3"/><rect class="th hi" x="118" y="14" width="96" height="12" rx="3"/><text class="tt" x="124" y="23">readings</text><text x="124" y="38"><tspan class="k">PK</tspan> id</text><text x="124" y="49"><tspan class="k">FK</tspan> driver_id</text><text x="124" y="60"><tspan class="k">FK</tspan> truck_id</text><text x="124" y="71">odometer_km</text><text x="124" y="82">photo_url</text><text x="124" y="93">read_at</text></g>
+            </svg>
+          </div>
+        </figure></div>
+      </div>
+
+      <div class="fc fc-c" data-depth="1.7">
+        <div class="fc-in" style="--d:-4s"><figure class="card" style="--d:.3s">
+          <figcaption class="cap mono" data-i18n="cap.face">reconhecimento facial</figcaption>
+          <div class="cbody">
+            <svg class="viz" viewBox="0 0 200 150" role="img" aria-label="Rosto detectado por visão computacional, com pontos de referência">
+              <ellipse class="face" cx="100" cy="66" rx="24" ry="28"/>
+              <path class="face" d="M52 144 C58 112 80 102 100 102 C120 102 142 112 148 144"/>
+              <circle class="lm" style="--li:0" cx="90" cy="60" r="2"/><circle class="lm" style="--li:1" cx="110" cy="60" r="2"/>
+              <circle class="lm" style="--li:2" cx="100" cy="68" r="1.6"/>
+              <circle class="lm" style="--li:3" cx="92" cy="78" r="1.6"/><circle class="lm" style="--li:4" cx="108" cy="78" r="1.6"/>
+              <path class="mesh" d="M90 60 L110 60 L100 68 Z M100 68 L92 78 L108 78 Z M90 60 L92 78 M110 60 L108 78"/>
+              <path class="brk" d="M62 34 V20 H78"/>
+              <path class="brk" d="M138 34 V20 H122"/>
+              <path class="brk" d="M62 98 V112 H78"/>
+              <path class="brk" d="M138 98 V112 H122"/>
+              <line class="scan" x1="62" y1="28" x2="138" y2="28"/>
+              <text class="tagt" x="62" y="12" data-i18n="svg.face">rosto cadastrado</text>
+            </svg>
+          </div>
+        </figure></div>
+      </div>
+
+      <div class="fc fc-d" data-depth="1.0">
+        <div class="fc-in" style="--d:-1s"><figure class="card" style="--d:.45s">
+          <figcaption class="cap mono" data-i18n="cap.pipe">pipeline de automação</figcaption>
+          <div class="cbody flush"><div class="flow"><span>WhatsApp</span><i></i><span>OpenAI</span><i></i><span>PostgreSQL</span><i></i><span data-i18n="flow.painel">painel</span></div></div>
+        </figure></div>
+      </div>
+    </div>
+      <div class="marquee" aria-hidden="true"><div class="mq-track"><span>Python</span><span>SQL</span><span>Power BI</span><span>PostgreSQL</span><span>Supabase</span><span>Chatbots</span><span>WhatsApp</span><span>Low code</span><span>React</span><span>TypeScript</span><span>Claude Code</span><span>Whisper</span><span>OpenCV</span><span>ETL</span><span>Python</span><span>SQL</span><span>Power BI</span><span>PostgreSQL</span><span>Supabase</span><span>Chatbots</span><span>WhatsApp</span><span>Low code</span><span>React</span><span>TypeScript</span><span>Claude Code</span><span>Whisper</span><span>OpenCV</span><span>ETL</span></div></div>
+  </header>
+
+  <section class="sec" id="sobre">
+    <div class="wrap grid2">
+      <div class="label mono" data-reveal><span class="idx">02</span><span data-i18n="nav.sobre">Sobre</span></div>
+      <div class="content">
+        <h2 data-reveal data-i18n="about.h2">Da necessidade do cliente à solução em produção.</h2>
+        <div class="about" data-reveal>
+          <p data-i18n="about.p1">Sou formada em Data Science pela FIAP e conduzo projetos de ponta a ponta: levantamento de requisitos, tratamento e modelagem dos dados, desenvolvimento e implantação. Minha base inclui machine learning, visão computacional e estatística aplicada, e a formação em Design Gráfico apoia o cuidado com a forma de apresentar as informações.</p>
+          <p data-i18n="about.p2">Minha experiência mais sólida está em automação de processos e chatbots, bancos de dados PostgreSQL e dashboards em Power BI. Estou aprofundando engenharia de dados.</p>
+        </div>
+        <div class="edge" data-reveal>
+          <p class="mono edge-l" data-i18n="diff.label">Diferenciais</p>
+          <div class="edge-grid">
+            <article><h3 data-i18n="diff.people">Experiência em suporte a clientes</h3><p data-i18n="e2.p">Suporte técnico, onboarding e treinamento de clientes: do levantamento da necessidade ao acompanhamento da solução em uso.</p></article>
+            <article><h3 data-i18n="diff.lang">Português, inglês e espanhol</h3><p data-i18n="e3.p">Português nativo, inglês avançado e espanhol intermediário, com a meta de aprender novos idiomas.</p></article>
+            <article><h3 data-i18n="ch.team">Trabalho em equipe</h3><p data-i18n="e4.p">Colaboro com times técnicos e de negócio, compartilhando conhecimento e alinhando prioridades até a entrega.</p></article>
+            <article><h3 data-i18n="diff.crit">Pensamento crítico</h3><p data-i18n="e5.p">Valido premissas, dados e requisitos antes de construir, para entregar a solução que resolve o problema de fato.</p></article>
+            <article><h3 data-i18n="diff.ai">Desenvolvimento de sites com IA</h3><p data-i18n="e1.p">Desenvolvo plataformas web com apoio de ferramentas de IA, como Replit e Claude Code. Exemplos: a plataforma de gestão de dados da Fieldcorp e este portfólio.</p></article>
+          </div>
+        </div>
+        <ul class="fronts">
+          <li data-reveal style="--i:0"><h3 data-i18n="role.auto">Automação</h3><p data-i18n="f4.p">Chatbots e fluxos automatizados em plataformas low code, integrados a APIs, IA e bancos de dados.</p></li>
+          <li data-reveal style="--i:1"><h3 data-i18n="f3.h">Análise de Dados e BI</h3><p data-i18n="f3.p">Tratamento de dados, SQL e dashboards em Power BI para acompanhamento de indicadores.</p></li>
+          <li data-reveal style="--i:2"><h3 data-i18n="role.de">Engenharia de Dados</h3><p data-i18n="f2.p">ETL, pipelines e modelagem de bancos de dados PostgreSQL, com foco em confiabilidade e escalabilidade.</p></li>
+          <li data-reveal style="--i:3"><h3 data-i18n="role.ds">Ciência de Dados</h3><p data-i18n="f1.p">Modelos de classificação e regressão, visão computacional e processamento de voz e linguagem.</p></li>
+        </ul>
+        <div class="edu" data-reveal>
+          <p><strong>Data Science</strong><span>FIAP</span><span>2024</span></p>
+          <p><strong data-i18n="edu.design">Design Gráfico</strong><span>Etec Jornalista Roberto Marinho</span><span>2022</span></p>
+          <p><strong data-i18n="edu.award">Prêmio FIAP Plus</strong><span data-i18n="edu.award2">reconhecimento por desempenho acadêmico de destaque, com bolsa de 50% em MBA</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="experiencia">
+    <div class="wrap grid2">
+      <div class="label mono" data-reveal><span class="idx">03</span><span data-i18n="nav.exp">Experiência</span></div>
+      <div class="content">
+        <h2 data-reveal data-i18n="exp.h2">Experiência profissional.</h2>
+        <article class="xp" data-reveal>
+          <p class="when mono" data-i18n="exp.when">nov 2024 – mar 2026</p>
+          <div>
+            <h3>Fieldcorp</h3>
+            <p class="role" data-i18n="exp.role">Analista de desenvolvimento Jr</p>
+            <p class="stat"><strong>15+</strong><span data-i18n="xp.stat">clientes atendidos pela empresa, com automações personalizadas para cada operação</span></p>
+            <ul class="pts">
+              <li data-i18n="exp.b1">Implantação e desenvolvimento de automações e chatbots para processos logísticos, personalizados conforme a necessidade de cada cliente. Os processos rodam sem intervenção de colaboradores, reduzindo atividades manuais e liberando as equipes para outras atividades.</li>
+              <li data-i18n="exp.b2">Automações integradas a diversas APIs, incluindo de Inteligência Artificial e de banco de dados.</li>
+              <li data-i18n="exp.b3">Criação e estruturação, do zero, do banco de dados PostgreSQL com Supabase, centralizando as informações das automações e já pensado para escalar com novos projetos.</li>
+              <li data-i18n="exp.b4">Plataforma web em TypeScript e React, feita com ferramentas de IA como Replit e Claude Code, para visualizar e gerenciar dados, com dashboards, métricas, indicadores e funções de consulta, inclusão e alteração.</li>
+              <li data-i18n="exp.b5">Implantação das soluções com onboarding, treinamentos, suporte técnico e acompanhamento dos clientes.</li>
+              <li data-i18n="exp.b6">Assistente de IA para suporte de primeiro nível, que direciona as demandas técnicas para análise especializada.</li>
+            </ul>
+            <ul class="chips"><li>Low code</li><li>Chatbots</li><li>WhatsApp</li><li>OpenAI API</li><li data-i18n="ch.api">Integração de APIs</li><li>PostgreSQL</li><li>Supabase</li><li>TypeScript</li><li>React</li><li>Replit</li><li>Claude Code</li></ul>
+          </div>
+        </article>
+        <div class="cases" data-reveal>
+          <p class="mono cases-l" data-i18n="cases.label">Casos reais</p>
+          <article class="case">
+            <h3 data-i18n="case1.h">Leitura de hodômetro via WhatsApp</h3>
+            <p data-i18n="case1.p">Os caminhoneiros precisavam enviar a foto do hodômetro todos os dias, às vezes duas vezes ao dia, e um funcionário passava o dia anotando os dados. Criei um chatbot no WhatsApp que recebe a foto, lê o hodômetro com IA e salva tudo em um banco de dados que estruturei.</p>
+            <ol class="steps"><li data-i18n="case1.s1">Primeiro contato: cadastro apenas com o CPF, para vincular o número ao motorista.</li><li data-i18n="case1.s2">Contatos seguintes: basta confirmar a identidade.</li><li data-i18n="case1.s3">O chatbot pede a placa do caminhão.</li><li data-i18n="case1.s4">O motorista envia a foto do hodômetro.</li><li data-i18n="case1.s5">A API da OpenAI extrai a leitura da imagem.</li><li data-i18n="case1.s6">Os dados são salvos no banco de dados.</li></ol>
+            <p class="outcome"><span class="mono" data-i18n="case.res">Resultado</span> <span data-i18n="case1.r">Substituiu a anotação manual, que ocupava um funcionário durante o dia todo.</span></p>
+            <ul class="chips"><li>WhatsApp</li><li>OpenAI API</li><li>PostgreSQL</li></ul>
+          </article>
+          <article class="case">
+            <h3 data-i18n="case2.h">Captação de candidatos a motorista</h3>
+            <p data-i18n="case2.p">Automação via chatbot que capta as informações básicas de candidatos a motorista, personalizada para a operação do cliente.</p>
+            <ul class="chips"><li>WhatsApp</li><li>Chatbots</li></ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="projetos">
+    <div class="wrap grid2">
+      <div class="label mono" data-reveal><span class="idx">04</span><span data-i18n="nav.proj">Projetos</span><small id="count">3</small></div>
+      <div class="content">
+        <h2 data-reveal data-i18n="proj.h2">Projetos selecionados.</h2>
+        <div class="filters" role="group" aria-label="Filtrar projetos por área" data-reveal>
+          <button type="button" data-f="todos" aria-pressed="true" data-i18n="filter.all">Todos</button>
+          <button type="button" data-f="automacao" aria-pressed="false" data-i18n="role.auto">Automação</button>
+          <button type="button" data-f="dados" aria-pressed="false" data-i18n="role.ds">Ciência de Dados</button>
+          <button type="button" data-f="engenharia" aria-pressed="false" data-i18n="role.de">Engenharia de Dados</button>
+          <button type="button" data-f="analise" aria-pressed="false" data-i18n="role.da">Análise de Dados</button>
+        </div>
+        <div class="projects">
+          <article class="proj" data-cat="automacao dados engenharia analise" data-reveal>
+            <div class="p-meta"><span class="cat mono" data-i18n="role.ds">Ciência de Dados</span><span class="org mono">FIAP × TOTVS</span></div>
+            <div class="p-main">
+              <h3 data-i18n="p1.h">Transcrição e análise de ligações de NPS</h3>
+              <p data-i18n="p1.p">Solução para transcrever ligações de pesquisa de NPS da TOTVS, extrair as notas por setor e classificar o sentimento e o motivo de insatisfação dos clientes detratores, com dashboard consolidado.</p>
+              <ul class="chips"><li>Python</li><li>Whisper</li><li>OpenAI API</li><li>ffmpeg</li><li>pandas</li><li>Power BI</li></ul>
+            </div>
+            <div class="p-res"><strong data-i18n="p1.r">80/dia</strong><span data-i18n="p1.rs">ligações por dia, volume de referência do cliente</span></div>
+            <div class="p-links"><a href="https://github.com/karenlonghi/Assistente-de-Voz-e-Transcricao-Inteligente" target="_blank" rel="noopener">GitHub ↗</a></div>
+          </article>
+
+          <article class="proj" data-cat="dados" data-reveal style="--i:1">
+            <div class="p-meta"><span class="cat mono" data-i18n="role.ds">Ciência de Dados</span><span class="org mono">FIAP · Deep Learning</span></div>
+            <div class="p-main">
+              <h3 data-i18n="p2.h">Assistente de voz com visão computacional</h3>
+              <p data-i18n="p2.p">Assistente virtual por voz desenvolvida em desafio de Deep Learning, com autenticação por reconhecimento facial, agenda por comandos de voz, previsão do tempo e reconhecimento de objetos pela webcam.</p>
+              <ul class="chips"><li>Python</li><li>OpenCV</li><li>YOLOv3-tiny</li><li>SpeechRecognition</li><li>pyttsx3</li></ul>
+            </div>
+            <div class="p-res"><strong data-i18n="p2.r">6 funções</strong><span data-i18n="p2.rs">por comando de voz, com autenticação facial</span></div>
+            <div class="p-links"><a href="https://github.com/karenlonghi/alexa" target="_blank" rel="noopener">GitHub ↗</a></div>
+          </article>
+
+          <article class="proj" data-cat="automacao dados" data-reveal style="--i:2">
+            <div class="p-meta"><span class="cat mono" data-i18n="p3.cat">IA + Produto</span><span class="org mono">moneda.info</span></div>
+            <div class="p-main">
+              <h3>Moneda</h3>
+              <p data-i18n="p3.p">Aplicativo de controle financeiro pessoal para brasileiros: o gasto é registrado em texto livre, categorizado por IA e resumido em insights sobre os hábitos de consumo. Considera o ciclo de fatura do cartão e funciona como PWA.</p>
+              <ul class="chips"><li>TypeScript</li><li>Next.js</li><li>Supabase</li><li>Groq API</li></ul>
+            </div>
+            <div class="p-res"><strong data-i18n="p3.r">No ar</strong><span data-i18n="p3.rs">em produção, com banco de dados e autenticação</span></div>
+            <div class="p-links"><a href="https://www.moneda.info" target="_blank" rel="noopener">Site ↗</a><a href="https://github.com/AdvenTureee/moneda" target="_blank" rel="noopener">GitHub ↗</a></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="certificados">
+    <div class="wrap grid2">
+      <div class="label mono" data-reveal><span class="idx">05</span><span data-i18n="nav.cert">Certificados</span><small>6</small></div>
+      <div class="content">
+        <h2 data-reveal data-i18n="cert.h2">Formação e certificações.</h2>
+        <div class="certs">
+          <article class="cert" data-reveal style="--i:0"><div class="top mono"><span class="yr" data-i18n="d.dez24">dez 2024</span></div><h3 data-i18n="c1">IA, Machine Learning e Deep Learning</h3><p class="org" data-i18n="c.org">Qualificação Profissional · FIAP</p></article>
+          <article class="cert" data-reveal style="--i:1"><div class="top mono"><span class="yr" data-i18n="d.dez24">dez 2024</span></div><h3 data-i18n="c2">Análise e Visualização de Dados</h3><p class="org" data-i18n="c.org">Qualificação Profissional · FIAP</p></article>
+          <article class="cert" data-reveal style="--i:2"><div class="top mono"><span class="yr" data-i18n="d.abr24">abr 2024</span></div><h3 data-i18n="c3">Linux fundamentos</h3><p class="org">FIAP</p></article>
+          <article class="cert" data-reveal style="--i:3"><div class="top mono"><span class="yr" data-i18n="d.dez23">dez 2023</span></div><h3 data-i18n="c4">Arquitetura de Analytics e Big Data</h3><p class="org" data-i18n="c.org">Qualificação Profissional · FIAP</p></article>
+          <article class="cert" data-reveal style="--i:4"><div class="top mono"><span class="yr" data-i18n="d.dez23">dez 2023</span></div><h3 data-i18n="c5">Modelagem, Programação e Qualidade de Dados</h3><p class="org" data-i18n="c.org">Qualificação Profissional · FIAP</p></article>
+          <article class="cert" data-reveal style="--i:5"><div class="top mono"><span class="yr" data-i18n="d.out23">out 2023</span></div><h3>Data visualization</h3><p class="org">FIAP</p></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="stack">
+    <div class="wrap grid2">
+      <div class="label mono" data-reveal><span class="idx">06</span><span>Stack</span></div>
+      <div class="content">
+        <h2 data-reveal data-i18n="stack.h2">Competências técnicas.</h2>
+        <dl class="stack">
+          <div data-reveal><dt class="mono" data-i18n="role.auto">Automação</dt><dd><span tabindex="0" data-uses="fieldcorp nps" data-i18n="ch.proc">Automação de processos</span><span tabindex="0" data-uses="fieldcorp">Low code</span><span tabindex="0" data-uses="fieldcorp">Chatbots</span><span tabindex="0" data-uses="fieldcorp">WhatsApp</span><span tabindex="0" data-uses="nps fieldcorp">OpenAI API</span><span tabindex="0" data-uses="fieldcorp" data-i18n="ch.api">Integração de APIs</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.ai">Sites com IA</dt><dd><span tabindex="0" data-uses="fieldcorp" data-i18n="ch.siteai">Construção de sites com IA</span><span tabindex="0" data-uses="fieldcorp">Replit</span><span tabindex="0" data-uses="fieldcorp">Claude Code</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.people">Clientes e colaboração</dt><dd><span tabindex="0" data-uses="fieldcorp" data-i18n="ch.clients">Suporte a clientes</span><span tabindex="0" data-uses="fieldcorp" data-i18n="ch.onb">Onboarding e treinamento</span><span tabindex="0" data-uses="" data-i18n="ch.comm">Comunicação</span><span tabindex="0" data-uses="" data-i18n="ch.team">Trabalho em equipe</span><span tabindex="0" data-uses="" data-i18n="ch.pm">Gestão de projetos</span><span tabindex="0" data-uses="" data-i18n="diff.crit">Pensamento crítico</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.data">Tratamento de dados</dt><dd><span tabindex="0" data-uses="" data-i18n="ch.clean">Limpeza de dados</span><span tabindex="0" data-uses="" data-i18n="ch.transf">Transformação</span><span tabindex="0" data-uses="">ETL</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.bi">BI e visualização</dt><dd><span tabindex="0" data-uses="nps">Power BI</span><span tabindex="0" data-uses="">Tableau</span><span tabindex="0" data-uses="">Looker</span><span tabindex="0" data-uses="nps">Matplotlib</span><span tabindex="0" data-uses="nps">Seaborn</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.db">Bancos e DW</dt><dd><span tabindex="0" data-uses="fieldcorp" data-i18n="ch.model">Modelagem de dados</span><span tabindex="0" data-uses="" data-i18n="ch.maint">Manutenção de banco de dados</span><span tabindex="0" data-uses="fieldcorp moneda">PostgreSQL</span><span tabindex="0" data-uses="">MySQL</span><span tabindex="0" data-uses="">MongoDB</span><span tabindex="0" data-uses="">Snowflake</span><span tabindex="0" data-uses="">Data Warehouse</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.eng">Engenharia</dt><dd><span tabindex="0" data-uses="">ETL</span><span tabindex="0" data-uses="nps">Pipelines</span><span tabindex="0" data-uses="">Terraform</span><span tabindex="0" data-uses="nps voz moneda" data-i18n="chip.git">Git e GitHub</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.lang">Linguagens</dt><dd><span tabindex="0" data-uses="nps voz">Python</span><span tabindex="0" data-uses="">SQL</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.ml">Análise e ML</dt><dd><span tabindex="0" data-uses="nps">pandas</span><span tabindex="0" data-uses="nps">NumPy</span><span tabindex="0" data-uses="">scikit-learn</span><span tabindex="0" data-uses="nps">TensorFlow</span><span tabindex="0" data-uses="nps">Keras</span><span tabindex="0" data-uses="voz">OpenCV</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.voice">Voz e linguagem</dt><dd><span tabindex="0" data-uses="nps">Whisper</span><span tabindex="0" data-uses="nps">OpenAI API</span><span tabindex="0" data-uses="nps">librosa</span><span tabindex="0" data-uses="nps">ffmpeg</span></dd></div>
+          <div data-reveal><dt class="mono" data-i18n="st.web">Web e apps</dt><dd><span tabindex="0" data-uses="fieldcorp moneda">TypeScript</span><span tabindex="0" data-uses="fieldcorp moneda">React</span><span tabindex="0" data-uses="moneda">Next.js</span><span tabindex="0" data-uses="fieldcorp moneda">Supabase</span></dd></div>
+        </dl>
+        <p class="uses mono" id="uses" aria-live="polite" data-i18n="uses.base">Passe o mouse sobre uma ferramenta destacada para ver onde foi aplicada.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="idiomas">
+    <div class="wrap grid2">
+      <div class="label mono" data-reveal><span class="idx">07</span><span data-i18n="nav.idiomas">Idiomas</span></div>
+      <div class="content">
+        <h2 data-reveal data-i18n="lang.h2">Atuação em três idiomas, com a meta de aprender mais.</h2>
+        <ul class="langs">
+          <li class="lang" data-reveal style="--i:0"><p class="hello">Olá</p><h3>Português</h3><p class="lv" data-i18n="lv.nat">Nativo</p><div class="meter" role="img" data-n="5"><i class="f" style="--k:0"></i><i class="f" style="--k:1"></i><i class="f" style="--k:2"></i><i class="f" style="--k:3"></i><i class="f" style="--k:4"></i></div></li>
+          <li class="lang" data-reveal style="--i:1"><p class="hello">Hello</p><h3>English</h3><p class="lv" data-i18n="lv.adv">Avançado</p><div class="meter" role="img" data-n="4"><i class="f" style="--k:0"></i><i class="f" style="--k:1"></i><i class="f" style="--k:2"></i><i class="f" style="--k:3"></i><i style="--k:4"></i></div></li>
+          <li class="lang" data-reveal style="--i:2"><p class="hello">Hola</p><h3>Español</h3><p class="lv" data-i18n="lv.int">Intermediário</p><div class="meter" role="img" data-n="3"><i class="f" style="--k:0"></i><i class="f" style="--k:1"></i><i class="f" style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i></div></li>
+          <li class="lang goal" data-reveal style="--i:3"><p class="hello">+</p><h3 data-i18n="goal.h">Próximos idiomas</h3><p class="lv" data-i18n="goal.p">Meta: aprender muitos outros idiomas.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec contact" id="contato">
+    <div class="wrap grid2">
+      <div class="label mono" data-reveal><span class="idx">08</span><span data-i18n="nav.contato">Contato</span></div>
+      <div class="content">
+        <h2 data-reveal data-i18n="contact.h2">Precisa automatizar processos ou estruturar seus dados? Vamos conversar.</h2>
+        <div class="copyrow" data-reveal>
+          <span class="big" id="mail">karennsloo@gmail.com</span>
+          <button class="copy" id="copy" type="button" data-i18n="copy">copiar</button>
+          <span class="mono" id="copied" aria-live="polite" style="color:var(--accent)"></span>
+        </div>
+        <div class="social" data-reveal>
+          <a class="btn primary" href="https://www.linkedin.com/in/karenlonghi" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="btn" href="https://github.com/karenlonghi" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <div class="term" data-reveal>
+          <div class="term-bar mono"><span>consulta.sql</span><span data-i18n="term.hint">tente: help</span></div>
+          <div class="term-out" id="termOut" role="log" aria-live="polite" tabindex="0"></div>
+          <form class="term-in" id="termForm" autocomplete="off">
+            <label class="mono prompt" for="termInput">karen=#</label>
+            <input id="termInput" type="text" spellcheck="false" autocapitalize="off" placeholder="SELECT * FROM projetos;">
+          </form>
+          <div class="term-chips">
+            <button type="button" data-cmd="help">help</button>
+            <button type="button" data-cmd="SELECT * FROM projetos;" data-i18n="chip.proj">projetos</button>
+            <button type="button" data-cmd="SELECT * FROM certificados;" data-i18n="chip.cert">certificados</button>
+            <button type="button" data-cmd="SELECT * FROM stack;">stack</button>
+            <button type="button" data-cmd="SELECT * FROM contato;" data-i18n="chip.contact">contato</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>© 2026 Karen Longhi</span>
+    <span class="ia mono"><i></i><span data-i18n="foot.ia">Este site foi feito com IA, totalmente de graça.</span></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* idioma: o salvo, senão o do navegador, senão português */
+  var lang = 'pt';
+  var I18N = {"skip": {"pt": "Pular para o conteúdo", "en": "Skip to content", "es": "Saltar al contenido"}, "nav.sobre": {"pt": "Sobre", "en": "About", "es": "Sobre mí"}, "nav.exp": {"pt": "Experiência", "en": "Experience", "es": "Experiencia"}, "nav.proj": {"pt": "Projetos", "en": "Projects", "es": "Proyectos"}, "nav.cert": {"pt": "Certificados", "en": "Certificates", "es": "Certificados"}, "nav.idiomas": {"pt": "Idiomas", "en": "Languages", "es": "Idiomas"}, "nav.contato": {"pt": "Contato", "en": "Contact", "es": "Contacto"}, "nav.inicio": {"pt": "Início", "en": "Home", "es": "Inicio"}, "hero.status": {"pt": "Disponível para novas oportunidades", "en": "Available for new opportunities", "es": "Disponible para nuevas oportunidades"}, "hero.l2": {"pt": "estruturo seus dados", "en": "structure your data", "es": "estructuro tus datos"}, "hero.l3": {"pt": "e crio sites com IA.", "en": "and build sites with AI.", "es": "y creo sitios con IA."}, "hero.cta1": {"pt": "Ver projetos", "en": "See projects", "es": "Ver proyectos"}, "hero.cta2": {"pt": "Entrar em contato", "en": "Get in touch", "es": "Contactar"}, "beat1": {"pt": "Dados.", "en": "Data.", "es": "Datos."}, "beat3": {"pt": "Decisão.", "en": "Decision.", "es": "Decisión."}, "role.ds": {"pt": "Ciência de Dados", "en": "Data Science", "es": "Ciencia de Datos"}, "role.de": {"pt": "Engenharia de Dados", "en": "Data Engineering", "es": "Ingeniería de Datos"}, "role.da": {"pt": "Análise de Dados", "en": "Data Analytics", "es": "Análisis de Datos"}, "role.auto": {"pt": "Automação", "en": "Automation", "es": "Automatización"}, "cap.scatter": {"pt": "dispersão · regressão linear", "en": "scatter · linear regression", "es": "dispersión · regresión lineal"}, "cap.nps": {"pt": "painel · NPS", "en": "dashboard · NPS", "es": "panel · NPS"}, "cap.face": {"pt": "reconhecimento facial", "en": "face recognition", "es": "reconocimiento facial"}, "svg.det": {"pt": "detratores", "en": "detractors", "es": "detractores"}, "svg.neu": {"pt": "neutros", "en": "passives", "es": "neutros"}, "svg.pro": {"pt": "promotores", "en": "promoters", "es": "promotores"}, "svg.face": {"pt": "rosto cadastrado", "en": "registered face", "es": "rostro registrado"}, "flow.audio": {"pt": "áudio", "en": "audio", "es": "audio"}, "flow.painel": {"pt": "painel", "en": "dashboard", "es": "panel"}, "about.h2": {"pt": "Da necessidade do cliente à solução em produção.", "en": "From the client's need to a solution in production.", "es": "De la necesidad del cliente a la solución en producción."}, "about.p1": {"pt": "Sou formada em Data Science pela FIAP e conduzo projetos de ponta a ponta: levantamento de requisitos, tratamento e modelagem dos dados, desenvolvimento e implantação. Minha base inclui machine learning, visão computacional e estatística aplicada, e a formação em Design Gráfico apoia o cuidado com a forma de apresentar as informações.", "en": "I hold a degree in Data Science from FIAP and run projects end to end: requirements gathering, data preparation and modeling, development and rollout. My foundation includes machine learning, computer vision and applied statistics, and my Graphic Design background shapes how carefully I present information.", "es": "Soy graduada en Data Science por FIAP y conduzco proyectos de punta a punta: relevamiento de requisitos, tratamiento y modelado de datos, desarrollo e implementación. Mi base incluye machine learning, visión por computadora y estadística aplicada, y mi formación en Diseño Gráfico influye en el cuidado con que presento la información."}, "about.p2": {"pt": "Minha experiência mais sólida está em automação de processos e chatbots, bancos de dados PostgreSQL e dashboards em Power BI. Estou aprofundando engenharia de dados.", "en": "My strongest experience is in process automation and chatbots, PostgreSQL databases and Power BI dashboards. I am going deeper into data engineering.", "es": "Mi experiencia más sólida está en automatización de procesos y chatbots, bases de datos PostgreSQL y dashboards en Power BI. Estoy profundizando en ingeniería de datos."}, "f1.p": {"pt": "Modelos de classificação e regressão, visão computacional e processamento de voz e linguagem.", "en": "Classification and regression models, computer vision, and speech and language processing.", "es": "Modelos de clasificación y regresión, visión por computadora y procesamiento de voz y lenguaje."}, "f2.p": {"pt": "ETL, pipelines e modelagem de bancos de dados PostgreSQL, com foco em confiabilidade e escalabilidade.", "en": "ETL, pipelines and PostgreSQL database modeling, with a focus on reliability and scalability.", "es": "ETL, pipelines y modelado de bases de datos PostgreSQL, con foco en confiabilidad y escalabilidad."}, "f3.h": {"pt": "Análise de Dados e BI", "en": "Data Analytics and BI", "es": "Análisis de Datos y BI"}, "f3.p": {"pt": "Tratamento de dados, SQL e dashboards em Power BI para acompanhamento de indicadores.", "en": "Data preparation, SQL and Power BI dashboards for tracking indicators.", "es": "Tratamiento de datos, SQL y dashboards en Power BI para el seguimiento de indicadores."}, "f4.p": {"pt": "Chatbots e fluxos automatizados em plataformas low code, integrados a APIs, IA e bancos de dados.", "en": "Chatbots and automated workflows on low-code platforms, integrated with APIs, AI and databases.", "es": "Chatbots y flujos automatizados en plataformas low code, integrados con APIs, IA y bases de datos."}, "edu.design": {"pt": "Design Gráfico", "en": "Graphic Design", "es": "Diseño Gráfico"}, "edu.award": {"pt": "Prêmio FIAP Plus", "en": "FIAP Plus Award", "es": "Premio FIAP Plus"}, "edu.award2": {"pt": "reconhecimento por desempenho acadêmico de destaque, com bolsa de 50% em MBA", "en": "recognition for outstanding academic performance, with a 50% MBA scholarship", "es": "reconocimiento por desempeño académico destacado, con beca del 50% en MBA"}, "exp.h2": {"pt": "Experiência profissional.", "en": "Professional experience.", "es": "Experiencia profesional."}, "exp.when": {"pt": "nov 2024 – mar 2026", "en": "Nov 2024 – Mar 2026", "es": "nov 2024 – mar 2026"}, "exp.role": {"pt": "Analista de desenvolvimento Jr", "en": "Junior Development Analyst", "es": "Analista de desarrollo Jr"}, "chip.db": {"pt": "Banco de dados", "en": "Database", "es": "Base de datos"}, "proj.h2": {"pt": "Projetos selecionados.", "en": "Selected projects.", "es": "Proyectos seleccionados."}, "filter.all": {"pt": "Todos", "en": "All", "es": "Todos"}, "p1.h": {"pt": "Transcrição e análise de ligações de NPS", "en": "NPS call transcription and analysis", "es": "Transcripción y análisis de llamadas de NPS"}, "p1.p": {"pt": "Solução para transcrever ligações de pesquisa de NPS da TOTVS, extrair as notas por setor e classificar o sentimento e o motivo de insatisfação dos clientes detratores, com dashboard consolidado.", "en": "A solution that transcribes TOTVS NPS survey calls, extracts scores by department and classifies the sentiment and reason for dissatisfaction of detractor customers, with a consolidated dashboard.", "es": "Solución que transcribe llamadas de encuestas NPS de TOTVS, extrae las notas por área y clasifica el sentimiento y el motivo de insatisfacción de los clientes detractores, con dashboard consolidado."}, "p1.r": {"pt": "80/dia", "en": "80/day", "es": "80/día"}, "p1.rs": {"pt": "ligações por dia, volume de referência do cliente", "en": "calls per day, the client's reference volume", "es": "llamadas por día, volumen de referencia del cliente"}, "p2.h": {"pt": "Assistente de voz com visão computacional", "en": "Voice assistant with computer vision", "es": "Asistente de voz con visión por computadora"}, "p2.p": {"pt": "Assistente virtual por voz desenvolvida em desafio de Deep Learning, com autenticação por reconhecimento facial, agenda por comandos de voz, previsão do tempo e reconhecimento de objetos pela webcam.", "en": "A voice-driven virtual assistant built for a Deep Learning challenge, with face-recognition login, voice-controlled calendar, weather reports and object recognition through the webcam.", "es": "Asistente virtual por voz desarrollada en un desafío de Deep Learning, con autenticación por reconocimiento facial, agenda por comandos de voz, clima y reconocimiento de objetos con la webcam."}, "p2.r": {"pt": "6 funções", "en": "6 features", "es": "6 funciones"}, "p2.rs": {"pt": "por comando de voz, com autenticação facial", "en": "by voice command, with face authentication", "es": "por comando de voz, con autenticación facial"}, "cert.h2": {"pt": "Formação e certificações.", "en": "Education and certifications.", "es": "Formación y certificaciones."}, "c1": {"pt": "IA, Machine Learning e Deep Learning", "en": "AI, Machine Learning and Deep Learning", "es": "IA, Machine Learning y Deep Learning"}, "c2": {"pt": "Análise e Visualização de Dados", "en": "Data Analysis and Visualization", "es": "Análisis y Visualización de Datos"}, "c3": {"pt": "Linux fundamentos", "en": "Linux Fundamentals", "es": "Fundamentos de Linux"}, "c4": {"pt": "Arquitetura de Analytics e Big Data", "en": "Analytics and Big Data Architecture", "es": "Arquitectura de Analytics y Big Data"}, "c5": {"pt": "Modelagem, Programação e Qualidade de Dados", "en": "Data Modeling, Programming and Quality", "es": "Modelado, Programación y Calidad de Datos"}, "c.org": {"pt": "Qualificação Profissional · FIAP", "en": "Professional Qualification · FIAP", "es": "Calificación Profesional · FIAP"}, "d.dez24": {"pt": "dez 2024", "en": "Dec 2024", "es": "dic 2024"}, "d.abr24": {"pt": "abr 2024", "en": "Apr 2024", "es": "abr 2024"}, "d.dez23": {"pt": "dez 2023", "en": "Dec 2023", "es": "dic 2023"}, "d.out23": {"pt": "out 2023", "en": "Oct 2023", "es": "oct 2023"}, "stack.h2": {"pt": "Competências técnicas.", "en": "Technical skills.", "es": "Competencias técnicas."}, "st.lang": {"pt": "Linguagens", "en": "Languages", "es": "Lenguajes"}, "st.ml": {"pt": "Análise e ML", "en": "Analysis and ML", "es": "Análisis y ML"}, "st.voice": {"pt": "Voz e linguagem", "en": "Speech and language", "es": "Voz y lenguaje"}, "st.db": {"pt": "Bancos e DW", "en": "Databases and DW", "es": "Bases de datos y DW"}, "st.eng": {"pt": "Engenharia", "en": "Engineering", "es": "Ingeniería"}, "st.bi": {"pt": "BI e visualização", "en": "BI and visualization", "es": "BI y visualización"}, "chip.git": {"pt": "Git e GitHub", "en": "Git and GitHub", "es": "Git y GitHub"}, "uses.base": {"pt": "Passe o mouse sobre uma ferramenta destacada para ver onde foi aplicada.", "en": "Hover over a highlighted tool to see where it was applied.", "es": "Pasa el mouse sobre una herramienta destacada para ver dónde se aplicó."}, "lang.h2": {"pt": "Atuação em três idiomas, com a meta de aprender mais.", "en": "Working in three languages, with the goal of learning more.", "es": "Trabajo en tres idiomas, con la meta de aprender más."}, "lv.nat": {"pt": "Nativo", "en": "Native", "es": "Nativo"}, "lv.adv": {"pt": "Avançado", "en": "Advanced", "es": "Avanzado"}, "lv.int": {"pt": "Intermediário", "en": "Intermediate", "es": "Intermedio"}, "goal.h": {"pt": "Próximos idiomas", "en": "Next languages", "es": "Próximos idiomas"}, "goal.p": {"pt": "Meta: aprender muitos outros idiomas.", "en": "Goal: learn many more languages.", "es": "Meta: aprender muchos otros idiomas."}, "contact.h2": {"pt": "Precisa automatizar processos ou estruturar seus dados? Vamos conversar.", "en": "Need to automate processes or structure your data? Let's talk.", "es": "¿Necesitas automatizar procesos o estructurar tus datos? Conversemos."}, "copy": {"pt": "copiar", "en": "copy", "es": "copiar"}, "term.hint": {"pt": "tente: help", "en": "try: help", "es": "prueba: help"}, "chip.proj": {"pt": "projetos", "en": "projects", "es": "proyectos"}, "chip.cert": {"pt": "certificados", "en": "certificates", "es": "certificados"}, "chip.contact": {"pt": "contato", "en": "contact", "es": "contacto"}, "foot.ia": {"pt": "Este site foi feito com IA, totalmente de graça.", "en": "This site was made with AI, completely free.", "es": "Este sitio fue hecho con IA, totalmente gratis."}, "title": {"pt": "Portfólio Karen Longhi", "en": "Karen Longhi Portfolio", "es": "Portafolio de Karen Longhi"}, "theme.light": {"pt": "claro", "en": "light", "es": "claro"}, "theme.dark": {"pt": "escuro", "en": "dark", "es": "oscuro"}, "copied": {"pt": "copiado", "en": "copied", "es": "copiado"}, "copysel": {"pt": "selecionado, use Ctrl+C", "en": "selected, press Ctrl+C", "es": "seleccionado, usa Ctrl+C"}, "uses.in": {"pt": "usado em", "en": "used in", "es": "usado en"}, "aria.nav": {"pt": "Principal", "en": "Main", "es": "Principal"}, "aria.dots": {"pt": "Seções", "en": "Sections", "es": "Secciones"}, "aria.roles": {"pt": "Áreas de atuação", "en": "Areas of work", "es": "Áreas de trabajo"}, "aria.filters": {"pt": "Filtrar projetos por área", "en": "Filter projects by area", "es": "Filtrar proyectos por área"}, "aria.theme": {"pt": "Alternar tema claro e escuro", "en": "Toggle light and dark theme", "es": "Alternar tema claro y oscuro"}, "aria.lang": {"pt": "Idioma", "en": "Language", "es": "Idioma"}, "aria.level": {"pt": "Nível {n} de 5", "en": "Level {n} of 5", "es": "Nivel {n} de 5"}, "beat2": {"pt": "Automação.", "en": "Automation.", "es": "Automatización."}, "diff.label": {"pt": "Diferenciais", "en": "What sets me apart", "es": "Mis diferenciales"}, "diff.ai": {"pt": "Desenvolvimento de sites com IA", "en": "Website development with AI", "es": "Desarrollo de sitios web con IA"}, "diff.people": {"pt": "Experiência em suporte a clientes", "en": "Customer support experience", "es": "Experiencia en soporte a clientes"}, "e1.p": {"pt": "Desenvolvo plataformas web com apoio de ferramentas de IA, como Replit e Claude Code. Exemplos: a plataforma de gestão de dados da Fieldcorp e este portfólio.", "en": "I build web platforms with the help of AI tools such as Replit and Claude Code. Examples: Fieldcorp's data management platform and this portfolio.", "es": "Desarrollo plataformas web con apoyo de herramientas de IA, como Replit y Claude Code. Ejemplos: la plataforma de gestión de datos de Fieldcorp y este portafolio."}, "e2.p": {"pt": "Suporte técnico, onboarding e treinamento de clientes: do levantamento da necessidade ao acompanhamento da solução em uso.", "en": "Technical support, onboarding and client training: from gathering requirements to following the solution in use.", "es": "Soporte técnico, onboarding y capacitación de clientes: del relevamiento de la necesidad al seguimiento de la solución en uso."}, "xs.auto.h": {"pt": "Automação de processos", "en": "Process automation", "es": "Automatización de procesos"}, "xs.auto.p": {"pt": "Chatbots no WhatsApp e automações para processos logísticos e internos, personalizados para a operação de cada cliente.", "en": "WhatsApp chatbots and automations for logistics and internal processes, tailored to each client's operation.", "es": "Chatbots en WhatsApp y automatizaciones para procesos logísticos e internos, personalizados para la operación de cada cliente."}, "xs.data.h": {"pt": "Tratamento de dados", "en": "Data preparation", "es": "Tratamiento de datos"}, "xs.data.p": {"pt": "Limpeza, transformação e aplicação de regras de negócio para análise e uso em sistemas.", "en": "Cleaning, transformation and business rules, ready for analysis and for use in systems.", "es": "Limpieza, transformación y reglas de negocio, listos para análisis y uso en sistemas."}, "xs.bi.h": {"pt": "Power BI", "en": "Power BI", "es": "Power BI"}, "xs.bi.p": {"pt": "Dashboards, métricas e indicadores para acompanhamento da operação.", "en": "Dashboards, metrics and indicators to monitor operations.", "es": "Dashboards, métricas e indicadores para el seguimiento de la operación."}, "xs.db.h": {"pt": "Banco de dados", "en": "Databases", "es": "Bases de datos"}, "xs.db.p": {"pt": "Modelagem de bancos PostgreSQL no Supabase, com estrutura, relacionamentos e regras de negócio, e manutenção contínua.", "en": "PostgreSQL modeling on Supabase, including structure, relationships and business rules, plus ongoing maintenance.", "es": "Modelado de bases PostgreSQL en Supabase, con estructura, relaciones y reglas de negocio, y mantenimiento continuo."}, "p3.cat": {"pt": "IA + Produto", "en": "AI + Product", "es": "IA + Producto"}, "p3.p": {"pt": "Aplicativo de controle financeiro pessoal para brasileiros: o gasto é registrado em texto livre, categorizado por IA e resumido em insights sobre os hábitos de consumo. Considera o ciclo de fatura do cartão e funciona como PWA.", "en": "A personal finance app for Brazilians: expenses are logged in plain text, categorized by AI and summarized into insights about spending habits. It follows the credit card billing cycle and works as a PWA.", "es": "App de control financiero personal para brasileños: el gasto se registra en texto libre, la IA lo categoriza y lo resume en insights sobre los hábitos de consumo. Considera el ciclo de factura de la tarjeta y funciona como PWA."}, "p3.r": {"pt": "No ar", "en": "Live", "es": "En línea"}, "p3.rs": {"pt": "em produção, com banco de dados e autenticação", "en": "in production, with a database and authentication", "es": "en producción, con base de datos y autenticación"}, "st.data": {"pt": "Tratamento de dados", "en": "Data preparation", "es": "Tratamiento de datos"}, "st.web": {"pt": "Web e apps", "en": "Web and apps", "es": "Web y apps"}, "st.ai": {"pt": "Sites com IA", "en": "Websites with AI", "es": "Sitios web con IA"}, "st.people": {"pt": "Clientes e colaboração", "en": "Clients and collaboration", "es": "Clientes y colaboración"}, "ch.proc": {"pt": "Automação de processos", "en": "Process automation", "es": "Automatización de procesos"}, "ch.clean": {"pt": "Limpeza de dados", "en": "Data cleaning", "es": "Limpieza de datos"}, "ch.transf": {"pt": "Transformação", "en": "Transformation", "es": "Transformación"}, "ch.model": {"pt": "Modelagem de dados", "en": "Data modeling", "es": "Modelado de datos"}, "ch.maint": {"pt": "Manutenção de banco de dados", "en": "Database maintenance", "es": "Mantenimiento de base de datos"}, "ch.siteai": {"pt": "Construção de sites com IA", "en": "Building websites with AI", "es": "Construcción de sitios web con IA"}, "ch.clients": {"pt": "Suporte a clientes", "en": "Customer support", "es": "Soporte a clientes"}, "ch.comm": {"pt": "Comunicação", "en": "Communication", "es": "Comunicación"}, "ch.team": {"pt": "Trabalho em equipe", "en": "Teamwork", "es": "Trabajo en equipo"}, "ch.pm": {"pt": "Gestão de projetos", "en": "Project management", "es": "Gestión de proyectos"}, "hero.l1": {"pt": "Automatizo processos,", "en": "I automate processes,", "es": "Automatizo procesos,"}, "hero.lede1": {"pt": "Reduzo trabalho manual com automação, dados confiáveis e IA.", "en": "I reduce manual work with automation, reliable data and AI.", "es": "Reduzco el trabajo manual con automatización, datos confiables e IA."}, "hero.lede2": {"pt": "Desenvolvo chatbots no WhatsApp e automações para processos logísticos e internos, integrados a APIs, IA e bancos de dados. Atuo também com tratamento de dados, dashboards em Power BI e modelagem e manutenção de bancos de dados. Formada em Data Science pela FIAP.", "en": "I build WhatsApp chatbots and automations for logistics and internal processes, integrated with APIs, AI and databases. I also work on data preparation, Power BI dashboards, and database modeling and maintenance. Data Science graduate, FIAP.", "es": "Desarrollo chatbots en WhatsApp y automatizaciones para procesos logísticos e internos, integrados con APIs, IA y bases de datos. También trabajo en tratamiento de datos, dashboards en Power BI y modelado y mantenimiento de bases de datos. Graduada en Data Science por FIAP."}, "diff.lang": {"pt": "Português, inglês e espanhol", "en": "Portuguese, English and Spanish", "es": "Portugués, inglés y español"}, "diff.crit": {"pt": "Pensamento crítico", "en": "Critical thinking", "es": "Pensamiento crítico"}, "e3.p": {"pt": "Português nativo, inglês avançado e espanhol intermediário, com a meta de aprender novos idiomas.", "en": "Native Portuguese, advanced English and intermediate Spanish, with the goal of learning more languages.", "es": "Portugués nativo, inglés avanzado y español intermedio, con la meta de aprender nuevos idiomas."}, "e4.p": {"pt": "Colaboro com times técnicos e de negócio, compartilhando conhecimento e alinhando prioridades até a entrega.", "en": "I collaborate with technical and business teams, sharing knowledge and aligning priorities through to delivery.", "es": "Colaboro con equipos técnicos y de negocio, compartiendo conocimiento y alineando prioridades hasta la entrega."}, "e5.p": {"pt": "Valido premissas, dados e requisitos antes de construir, para entregar a solução que resolve o problema de fato.", "en": "I validate assumptions, data and requirements before building, to deliver the solution that actually solves the problem.", "es": "Valido premisas, datos y requisitos antes de construir, para entregar la solución que realmente resuelve el problema."}, "exp.b1": {"pt": "Desenvolvimento e implantação de chatbots no WhatsApp e automações para processos logísticos, personalizados para a operação de cada cliente. Os processos rodam sem intervenção de colaboradores, reduzindo atividades manuais e liberando as equipes para outras atividades.", "en": "Development and deployment of WhatsApp chatbots and automations for logistics processes, tailored to each client's operation. The processes run without staff intervention, cutting manual work and freeing teams for other activities.", "es": "Desarrollo e implementación de chatbots en WhatsApp y automatizaciones para procesos logísticos, personalizados para la operación de cada cliente. Los procesos se ejecutan sin intervención de colaboradores, reduciendo actividades manuales y liberando a los equipos para otras actividades."}, "exp.b2": {"pt": "Automações integradas a diversas APIs, incluindo de Inteligência Artificial (OpenAI, para leitura de dados em imagens) e de banco de dados.", "en": "Automations integrated with multiple APIs, including AI (OpenAI, to read data from images) and database APIs.", "es": "Automatizaciones integradas con diversas APIs, incluidas las de Inteligencia Artificial (OpenAI, para leer datos en imágenes) y de bases de datos."}, "exp.b3": {"pt": "Criação e estruturação, do zero, do banco de dados PostgreSQL com Supabase, centralizando as informações das automações e já pensado para escalar com novos projetos.", "en": "Created and structured, from scratch, the PostgreSQL database on Supabase, centralizing the information generated by the automations and built to scale with new projects.", "es": "Creación y estructuración, desde cero, de la base de datos PostgreSQL con Supabase, centralizando la información de las automatizaciones y pensada para escalar con nuevos proyectos."}, "exp.b4": {"pt": "Plataforma web em TypeScript e React, feita com ferramentas de IA como Replit e Claude Code, para visualizar e gerenciar dados, com dashboards, métricas, indicadores e funções de consulta, inclusão e alteração.", "en": "Web platform in TypeScript and React, built with AI tools such as Replit and Claude Code, to view and manage data, with dashboards, metrics, indicators and functions to query, add and edit information.", "es": "Plataforma web en TypeScript y React, hecha con herramientas de IA como Replit y Claude Code, para visualizar y gestionar datos, con dashboards, métricas, indicadores y funciones de consulta, inclusión y modificación."}, "exp.b5": {"pt": "Implantação das soluções com onboarding, treinamentos, suporte técnico e acompanhamento dos clientes.", "en": "Rollout of the solutions, including onboarding, training, technical support and follow-up with clients.", "es": "Implementación de las soluciones con onboarding, capacitaciones, soporte técnico y seguimiento de los clientes."}, "exp.b6": {"pt": "Assistente de IA para suporte de primeiro nível, que direciona as demandas técnicas para análise especializada.", "en": "AI assistant for first-level support, routing technical requests to specialist analysis.", "es": "Asistente de IA para soporte de primer nivel, que dirige las demandas técnicas al análisis especializado."}, "ch.api": {"pt": "Integração de APIs", "en": "API integration", "es": "Integración de APIs"}, "ch.onb": {"pt": "Onboarding e treinamento", "en": "Onboarding and training", "es": "Onboarding y capacitación"}, "cases.label": {"pt": "Casos reais", "en": "Real cases", "es": "Casos reales"}, "case.res": {"pt": "Resultado", "en": "Outcome", "es": "Resultado"}, "xp.stat": {"pt": "clientes atendidos pela empresa, com automações personalizadas para cada operação", "en": "clients served by the company, with automations tailored to each operation", "es": "clientes atendidos por la empresa, con automatizaciones personalizadas para cada operación"}, "case1.h": {"pt": "Leitura de hodômetro via WhatsApp", "en": "Odometer reading via WhatsApp", "es": "Lectura de odómetro por WhatsApp"}, "case1.p": {"pt": "Os caminhoneiros precisavam enviar a foto do hodômetro todos os dias, às vezes duas vezes ao dia, e um funcionário passava o dia anotando os dados. Criei um chatbot no WhatsApp que recebe a foto, lê o hodômetro com IA e salva tudo em um banco de dados que estruturei.", "en": "Truck drivers had to send an odometer photo every day, sometimes twice a day, and an employee spent the whole day writing the readings down. I built a WhatsApp chatbot that receives the photo, reads the odometer with AI and saves everything to a database I designed.", "es": "Los camioneros debían enviar la foto del odómetro todos los días, a veces dos veces al día, y un empleado pasaba el día anotando los datos. Creé un chatbot en WhatsApp que recibe la foto, lee el odómetro con IA y guarda todo en una base de datos que estructuré."}, "case1.s1": {"pt": "Primeiro contato: cadastro apenas com o CPF, para vincular o número ao motorista.", "en": "First contact: sign-up with the CPF (tax ID) only, to link the phone number to the driver.", "es": "Primer contacto: registro solo con el CPF, para vincular el número al conductor."}, "case1.s2": {"pt": "Contatos seguintes: basta confirmar a identidade.", "en": "Later contacts: identity confirmation only.", "es": "Contactos siguientes: basta confirmar la identidad."}, "case1.s3": {"pt": "O chatbot pede a placa do caminhão.", "en": "The chatbot asks for the truck plate.", "es": "El chatbot pide la placa del camión."}, "case1.s4": {"pt": "O motorista envia a foto do hodômetro.", "en": "The driver sends the odometer photo.", "es": "El conductor envía la foto del odómetro."}, "case1.s5": {"pt": "A API da OpenAI extrai a leitura da imagem.", "en": "The OpenAI API extracts the reading from the image.", "es": "La API de OpenAI extrae la lectura de la imagen."}, "case1.s6": {"pt": "Os dados são salvos no banco de dados.", "en": "The data is saved to the database.", "es": "Los datos se guardan en la base de datos."}, "case1.r": {"pt": "Substituiu a anotação manual, que ocupava um funcionário durante o dia todo.", "en": "Replaced manual logging, which kept an employee busy all day.", "es": "Sustituyó el registro manual, que ocupaba a un empleado todo el día."}, "case2.h": {"pt": "Captação de candidatos a motorista", "en": "Driver candidate intake", "es": "Captación de candidatos a conductor"}, "case2.p": {"pt": "Automação via chatbot que capta as informações básicas de candidatos a motorista, personalizada para a operação do cliente.", "en": "Chatbot automation that captures the basic information of driver candidates, tailored to the client's operation.", "es": "Automatización vía chatbot que capta la información básica de candidatos a conductor, personalizada para la operación del cliente."}, "cap.db": {"pt": "modelo de dados · ER", "en": "data model · ER", "es": "modelo de datos · ER"}, "cap.pipe": {"pt": "pipeline de automação", "en": "automation pipeline", "es": "pipeline de automatización"}};
+  var sl = null;
+  try { sl = localStorage.getItem('portfolio-lang'); } catch (e) { sl = null; }
+  if (sl === 'pt' || sl === 'en' || sl === 'es') { lang = sl; }
+  else { var nl = ((navigator.language || 'pt') + '').slice(0, 2).toLowerCase(); if (nl === 'en' || nl === 'es') lang = nl; }
+  function T(k) { var v = I18N[k]; return v ? v[lang] : k; }
+
+  /* tema */
+  var saved = null;
+  try { saved = localStorage.getItem('portfolio-theme'); } catch (e) { saved = null; }
+  var themePref = saved === 'light' ? 'light' : 'dark';
+  root.setAttribute('data-theme', themePref);
+  /* se o visualizador aplicar outro tema logo na abertura, volta para o escolhido */
+  try {
+    var themeGuard = new MutationObserver(function () {
+      if (root.getAttribute('data-theme') !== themePref) root.setAttribute('data-theme', themePref);
+    });
+    themeGuard.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    setTimeout(function () { themeGuard.disconnect(); }, 1500);
+  } catch (e) {}
+  var themeBtn = document.getElementById('theme');
+  var themeLabel = document.getElementById('themeLabel');
+  function currentTheme() {
+    var a = root.getAttribute('data-theme');
+    if (a) return a;
+    return 'dark';
+  }
+  function paintLabel() { themeLabel.textContent = T(currentTheme() === 'dark' ? 'theme.dark' : 'theme.light'); }
+  paintLabel();
+  themeBtn.addEventListener('click', function () {
+    var next = currentTheme() === 'dark' ? 'light' : 'dark';
+    themePref = next;
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('portfolio-theme', next); } catch (e) {}
+    paintLabel();
+  });
+
+  /* gráfico de dispersão (cartão do cabeçalho) */
+  var cv = document.getElementById('plot');
+  var ctx = cv.getContext('2d');
+  var W = 0, H = 0, dpr = 1, pad = 20, pts = [], mx = -999, my = -999;
+  var t0 = performance.now(), running = false, tick = 0;
+  var col = { dot: '#999', line: '#ddd', accent: '#33f', ink: '#000' };
+
+  var seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  function gauss() { return (rnd() + rnd() + rnd() + rnd() - 2) * 0.9; }
+  var data = [], N = 70, i;
+  for (i = 0; i < N; i++) {
+    var x = 0.03 + 0.94 * rnd();
+    var y = 0.12 + 0.74 * x + gauss() * 0.09;
+    data.push({ x: x, y: Math.min(0.97, Math.max(0.03, y)), d: rnd() });
+  }
+  /* regressão linear de verdade sobre os pontos */
+  var sx = 0, sy = 0, sxx = 0, sxy = 0, syy = 0;
+  data.forEach(function (p) { sx += p.x; sy += p.y; sxx += p.x * p.x; sxy += p.x * p.y; syy += p.y * p.y; });
+  var slope = (N * sxy - sx * sy) / (N * sxx - sx * sx);
+  var icpt = (sy - slope * sx) / N;
+  var r = (N * sxy - sx * sy) / Math.sqrt((N * sxx - sx * sx) * (N * syy - sy * sy));
+  var fmt = function (n) { return n.toFixed(2).replace('.', ','); };
+  document.getElementById('fit').textContent = 'ŷ = ' + fmt(slope) + 'x + ' + fmt(icpt) + ' · R² = ' + fmt(r * r);
+
+  function readColors() {
+    var s = getComputedStyle(root);
+    col.dot = s.getPropertyValue('--dot').trim() || col.dot;
+    col.line = s.getPropertyValue('--line').trim() || col.line;
+    col.accent = s.getPropertyValue('--accent').trim() || col.accent;
+    col.ink = s.getPropertyValue('--ink').trim() || col.ink;
+  }
+  function layout() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    pts = data.map(function (p) {
+      return { bx: pad + p.x * (W - 2 * pad), by: H - pad - p.y * (H - 2 * pad), ox: 0, oy: 0, vx: 0, vy: 0, d: p.d, rad: 1.6 + p.d * 1.6 };
+    });
+  }
+  function ease(t) { t = Math.max(0, Math.min(1, t)); return 1 - Math.pow(1 - t, 3); }
+  function draw(now) {
+    var t = reduce ? 99 : (now - t0) / 1000;
+    var R = 70, k;
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = col.line;
+    ctx.globalAlpha = 0.55;
+    for (k = 1; k <= 3; k++) {
+      var gy = pad + (H - 2 * pad) * k / 4, gx = pad + (W - 2 * pad) * k / 4;
+      ctx.beginPath(); ctx.moveTo(pad, gy); ctx.lineTo(W - pad, gy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(gx, pad); ctx.lineTo(gx, H - pad); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = col.dot;
+    ctx.beginPath(); ctx.moveTo(pad, pad); ctx.lineTo(pad, H - pad); ctx.lineTo(W - pad, H - pad); ctx.stroke();
+    pts.forEach(function (p) {
+      if (!reduce) {
+        var x0 = p.bx + p.ox, y0 = p.by + p.oy;
+        var dx = x0 - mx, dy = y0 - my, d2 = dx * dx + dy * dy;
+        if (d2 < R * R && d2 > 0.01) { var d = Math.sqrt(d2), f = (1 - d / R) * 1.5; p.vx += dx / d * f; p.vy += dy / d * f; }
+        p.vx += -p.ox * 0.06; p.vy += -p.oy * 0.06;
+        p.vx *= 0.84; p.vy *= 0.84;
+        p.ox += p.vx; p.oy += p.vy;
+      }
+      var drift = reduce ? 0 : Math.sin(t * 0.8 + p.d * 12) * 1.1;
+      var a = ease((t - 0.6 - p.d * 0.9) / 0.5);
+      var moved = Math.min(1, Math.sqrt(p.ox * p.ox + p.oy * p.oy) / 14);
+      ctx.globalAlpha = a;
+      ctx.fillStyle = moved > 0.25 ? col.accent : col.dot;
+      ctx.beginPath();
+      ctx.arc(p.bx + p.ox, p.by + p.oy + drift, p.rad * (1 + moved * 0.35) * (0.6 + 0.4 * a), 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    var prog = ease((t - 1.7) / 1.5);
+    if (prog > 0) {
+      ctx.strokeStyle = col.accent; ctx.lineWidth = 2; ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pad, H - pad - icpt * (H - 2 * pad));
+      ctx.lineTo(pad + prog * (W - 2 * pad), H - pad - (icpt + slope * prog) * (H - 2 * pad));
+      ctx.stroke();
+    }
+  }
+  function loop(now) {
+    if (!running) return;
+    tick++; if (tick % 30 === 0) readColors();
+    draw(now);
+    requestAnimationFrame(loop);
+  }
+  function startPlot() { if (running || reduce) return; running = true; requestAnimationFrame(loop); }
+  function stopPlot() { running = false; }
+
+  readColors(); layout(); draw(performance.now());
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(function () { layout(); readColors(); draw(performance.now()); }).observe(cv);
+  } else { window.addEventListener('resize', function () { layout(); draw(performance.now()); }); }
+
+  /* paralaxe: os cartões andam em profundidades diferentes com o mouse */
+  var hero = document.getElementById('topo');
+  var stage = document.getElementById('stage');
+  var fcs = Array.prototype.slice.call(stage.querySelectorAll('.fc'));
+  var coarse = window.matchMedia('(hover: none)').matches;
+  var tx = 0, ty = 0, cx = 0, cy = 0, parRun = false;
+  function parLoop(now) {
+    if (!parRun) return;
+    if (coarse) { var s2 = now / 1000; tx = Math.sin(s2 * 0.5) * 0.8; ty = Math.cos(s2 * 0.4) * 0.5; }
+    cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
+    fcs.forEach(function (el) {
+      var d = parseFloat(el.getAttribute('data-depth')) || 1;
+      el.style.transform = 'translate3d(' + (-cx * d * 34).toFixed(2) + 'px,' + (-cy * d * 26).toFixed(2) + 'px,0) rotateY(' + (cx * d * 9).toFixed(2) + 'deg) rotateX(' + (-cy * d * 7).toFixed(2) + 'deg)';
+    });
+    requestAnimationFrame(parLoop);
+  }
+  function startPar() { if (parRun || reduce) return; parRun = true; requestAnimationFrame(parLoop); }
+  function stopPar() { parRun = false; }
+  hero.addEventListener('pointermove', function (e) {
+    if (coarse) return;
+    var b = hero.getBoundingClientRect();
+    tx = ((e.clientX - b.left) / b.width - 0.5) * 2;
+    ty = ((e.clientY - b.top) / b.height - 0.5) * 2;
+    var cb = cv.getBoundingClientRect();
+    mx = e.clientX - cb.left; my = e.clientY - cb.top;
+  });
+  hero.addEventListener('pointerleave', function () { tx = 0; ty = 0; mx = -999; my = -999; });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { startPlot(); startPar(); } else { stopPlot(); stopPar(); }
+    }, { threshold: 0.01 }).observe(hero);
+  } else { startPlot(); startPar(); }
+
+  /* filtro de projetos */
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.proj'));
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.filters button'));
+  var count = document.getElementById('count');
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-f'), n = 0;
+      buttons.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      rows.forEach(function (row) {
+        var show = f === 'todos' || row.getAttribute('data-cat').split(' ').indexOf(f) > -1;
+        row.hidden = !show;
+        if (show) {
+          n++;
+          row.classList.remove('pre', 'enter'); void row.offsetWidth; row.classList.add('enter');
+        }
+      });
+      count.textContent = n;
+    });
+  });
+
+  /* revelar ao rolar: o que já está na tela fica visível desde o início */
+  var items = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+  if (!reduce && 'IntersectionObserver' in window) {
+    var vh = window.innerHeight;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    items.forEach(function (el) {
+      if (el.getBoundingClientRect().top > vh * 0.95) { el.classList.add('pre'); io.observe(el); }
+    });
+  }
+
+  /* blocos de tela cheia: o bloco no centro da tela fica ativo */
+  var blocks = Array.prototype.slice.call(document.querySelectorAll('.hero, .sec'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.dots a'));
+  function setOn(el) {
+    blocks.forEach(function (b) { b.classList.toggle('on', b === el); });
+    dots.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + el.id); });
+  }
+  var blkCur = null, blkQueued = false;
+  function pickBlock() {
+    blkQueued = false;
+    var mid = window.innerHeight / 2, best = null, bd = 1e9;
+    blocks.forEach(function (b) {
+      var r = b.getBoundingClientRect();
+      var d = (r.top <= mid && r.bottom >= mid) ? 0 : Math.min(Math.abs(r.top - mid), Math.abs(r.bottom - mid));
+      if (d < bd) { bd = d; best = b; }
+    });
+    if (best && best !== blkCur) { blkCur = best; setOn(best); }
+    if (!reduce) root.classList.add('js-snap');
+  }
+  function queue() { if (!blkQueued) { blkQueued = true; requestAnimationFrame(pickBlock); } }
+  window.addEventListener('scroll', queue, { passive: true });
+  window.addEventListener('resize', queue);
+  window.addEventListener('hashchange', queue);
+  pickBlock();
+
+  /* dados do console e dos vínculos da stack, nos três idiomas */
+  var TD = {
+    pt: {
+      intro: '-- Digite help para ver os comandos.',
+      help: 'Comandos:\n  SELECT * FROM projetos;\n  SELECT * FROM certificados;\n  SELECT * FROM experiencia;\n  SELECT * FROM stack;\n  SELECT * FROM contato;\n  clear',
+      errRel: 'ERRO: a relação "%s" não existe',
+      errSyn: 'ERRO: erro de sintaxe. Digite help para ver os comandos.',
+      one: ' linha)', many: ' linhas)',
+      cmds: ['help', 'SELECT * FROM projetos;', 'SELECT * FROM certificados;', 'SELECT * FROM stack;', 'SELECT * FROM contato;'],
+      fc: 'Fieldcorp (automações e chatbots)',
+      proj: { head: ['id', 'projeto', 'area', 'ferramentas'], rows: [
+        ['1', 'Transcrição e análise de ligações de NPS', 'Ciência + Engenharia', 'Python, Whisper, OpenAI API'],
+        ['2', 'Assistente de voz com visão computacional', 'Ciência de Dados', 'Python, OpenCV'],
+        ['3', 'Moneda', 'IA + Produto', 'TypeScript, Next.js, Supabase']] },
+      cert: { head: ['ano', 'certificado', 'instituicao'], rows: [
+        ['2024', 'IA, Machine Learning e Deep Learning', 'FIAP'],
+        ['2024', 'Análise e Visualização de Dados', 'FIAP'],
+        ['2024', 'Linux fundamentos', 'FIAP'],
+        ['2023', 'Arquitetura de Analytics e Big Data', 'FIAP'],
+        ['2023', 'Modelagem, Programação e Qualidade de Dados', 'FIAP'],
+        ['2023', 'Data visualization', 'FIAP']] },
+      exp: { head: ['empresa', 'cargo', 'periodo'], rows: [['Fieldcorp', 'Analista de desenvolvimento Jr', 'nov 2024 - mar 2026']] },
+      stack: { head: ['area', 'ferramentas'], rows: [
+        ['automacao', 'Automação de processos, Low code, Chatbots, WhatsApp, Integração de APIs'],
+        ['sites com ia', 'Construção de sites com IA, Replit, Claude Code'],
+        ['clientes e colaboracao', 'Suporte a clientes, Onboarding e treinamento, Comunicação, Trabalho em equipe, Gestão de projetos, Pensamento crítico'],
+        ['tratamento de dados', 'Limpeza de dados, Transformação, ETL'],
+        ['bi', 'Power BI, Tableau, Looker, Matplotlib, Seaborn'],
+        ['bancos e dw', 'Modelagem de dados, Manutenção de banco de dados, PostgreSQL, MySQL, MongoDB, Snowflake'],
+        ['engenharia', 'ETL, Pipelines, Terraform, Git'],
+        ['linguagens', 'Python, SQL'],
+        ['analise e ml', 'pandas, NumPy, scikit-learn, TensorFlow, Keras, OpenCV'],
+        ['voz e linguagem', 'Whisper, OpenAI API, librosa, ffmpeg'],
+        ['web e apps', 'TypeScript, React, Next.js, Supabase']] },
+      contact: { head: ['canal', 'endereco'], rows: [['email', 'karennsloo@gmail.com'], ['linkedin', 'linkedin.com/in/karenlonghi'], ['github', 'github.com/karenlonghi']] }
+    },
+    en: {
+      intro: '-- Type help to see the commands.',
+      help: 'Commands:\n  SELECT * FROM projects;\n  SELECT * FROM certificates;\n  SELECT * FROM experience;\n  SELECT * FROM stack;\n  SELECT * FROM contact;\n  clear',
+      errRel: 'ERROR: relation "%s" does not exist',
+      errSyn: 'ERROR: syntax error. Type help to see the commands.',
+      one: ' row)', many: ' rows)',
+      cmds: ['help', 'SELECT * FROM projects;', 'SELECT * FROM certificates;', 'SELECT * FROM stack;', 'SELECT * FROM contact;'],
+      fc: 'Fieldcorp (automations and chatbots)',
+      proj: { head: ['id', 'project', 'area', 'tools'], rows: [
+        ['1', 'NPS call transcription and analysis', 'Science + Engineering', 'Python, Whisper, OpenAI API'],
+        ['2', 'Voice assistant with computer vision', 'Data Science', 'Python, OpenCV'],
+        ['3', 'Moneda', 'AI + Product', 'TypeScript, Next.js, Supabase']] },
+      cert: { head: ['year', 'certificate', 'institution'], rows: [
+        ['2024', 'AI, Machine Learning and Deep Learning', 'FIAP'],
+        ['2024', 'Data Analysis and Visualization', 'FIAP'],
+        ['2024', 'Linux Fundamentals', 'FIAP'],
+        ['2023', 'Analytics and Big Data Architecture', 'FIAP'],
+        ['2023', 'Data Modeling, Programming and Quality', 'FIAP'],
+        ['2023', 'Data visualization', 'FIAP']] },
+      exp: { head: ['company', 'role', 'period'], rows: [['Fieldcorp', 'Junior Development Analyst', 'Nov 2024 - Mar 2026']] },
+      stack: { head: ['area', 'tools'], rows: [
+        ['automation', 'Process automation, Low code, Chatbots, WhatsApp, API integration'],
+        ['websites with ai', 'Building websites with AI, Replit, Claude Code'],
+        ['clients and collaboration', 'Customer support, Onboarding and training, Communication, Teamwork, Project management, Critical thinking'],
+        ['data preparation', 'Data cleaning, Transformation, ETL'],
+        ['bi', 'Power BI, Tableau, Looker, Matplotlib, Seaborn'],
+        ['databases and dw', 'Data modeling, Database maintenance, PostgreSQL, MySQL, MongoDB, Snowflake'],
+        ['engineering', 'ETL, Pipelines, Terraform, Git'],
+        ['languages', 'Python, SQL'],
+        ['analysis and ml', 'pandas, NumPy, scikit-learn, TensorFlow, Keras, OpenCV'],
+        ['speech and language', 'Whisper, OpenAI API, librosa, ffmpeg'],
+        ['web and apps', 'TypeScript, React, Next.js, Supabase']] },
+      contact: { head: ['channel', 'address'], rows: [['email', 'karennsloo@gmail.com'], ['linkedin', 'linkedin.com/in/karenlonghi'], ['github', 'github.com/karenlonghi']] }
+    },
+    es: {
+      intro: '-- Escribe help para ver los comandos.',
+      help: 'Comandos:\n  SELECT * FROM proyectos;\n  SELECT * FROM certificados;\n  SELECT * FROM experiencia;\n  SELECT * FROM stack;\n  SELECT * FROM contacto;\n  clear',
+      errRel: 'ERROR: la relación "%s" no existe',
+      errSyn: 'ERROR: error de sintaxis. Escribe help para ver los comandos.',
+      one: ' fila)', many: ' filas)',
+      cmds: ['help', 'SELECT * FROM proyectos;', 'SELECT * FROM certificados;', 'SELECT * FROM stack;', 'SELECT * FROM contacto;'],
+      fc: 'Fieldcorp (automatizaciones y chatbots)',
+      proj: { head: ['id', 'proyecto', 'area', 'herramientas'], rows: [
+        ['1', 'Transcripción y análisis de llamadas de NPS', 'Ciencia + Ingeniería', 'Python, Whisper, OpenAI API'],
+        ['2', 'Asistente de voz con visión por computadora', 'Ciencia de Datos', 'Python, OpenCV'],
+        ['3', 'Moneda', 'IA + Producto', 'TypeScript, Next.js, Supabase']] },
+      cert: { head: ['año', 'certificado', 'institucion'], rows: [
+        ['2024', 'IA, Machine Learning y Deep Learning', 'FIAP'],
+        ['2024', 'Análisis y Visualización de Datos', 'FIAP'],
+        ['2024', 'Fundamentos de Linux', 'FIAP'],
+        ['2023', 'Arquitectura de Analytics y Big Data', 'FIAP'],
+        ['2023', 'Modelado, Programación y Calidad de Datos', 'FIAP'],
+        ['2023', 'Data visualization', 'FIAP']] },
+      exp: { head: ['empresa', 'cargo', 'periodo'], rows: [['Fieldcorp', 'Analista de desarrollo Jr', 'nov 2024 - mar 2026']] },
+      stack: { head: ['area', 'herramientas'], rows: [
+        ['automatizacion', 'Automatización de procesos, Low code, Chatbots, WhatsApp, Integración de APIs'],
+        ['sitios web con ia', 'Construcción de sitios web con IA, Replit, Claude Code'],
+        ['clientes y colaboracion', 'Soporte a clientes, Onboarding y capacitación, Comunicación, Trabajo en equipo, Gestión de proyectos, Pensamiento crítico'],
+        ['tratamiento de datos', 'Limpieza de datos, Transformación, ETL'],
+        ['bi', 'Power BI, Tableau, Looker, Matplotlib, Seaborn'],
+        ['bases de datos y dw', 'Modelado de datos, Mantenimiento de base de datos, PostgreSQL, MySQL, MongoDB, Snowflake'],
+        ['ingenieria', 'ETL, Pipelines, Terraform, Git'],
+        ['lenguajes', 'Python, SQL'],
+        ['analisis y ml', 'pandas, NumPy, scikit-learn, TensorFlow, Keras, OpenCV'],
+        ['voz y lenguaje', 'Whisper, OpenAI API, librosa, ffmpeg'],
+        ['web y apps', 'TypeScript, React, Next.js, Supabase']] },
+      contact: { head: ['canal', 'direccion'], rows: [['email', 'karennsloo@gmail.com'], ['linkedin', 'linkedin.com/in/karenlonghi'], ['github', 'github.com/karenlonghi']] }
+    }
+  };
+  var ALIAS = { projetos: 'proj', projects: 'proj', proyectos: 'proj', certificados: 'cert', certificates: 'cert', experiencia: 'exp', experience: 'exp', stack: 'stack', contato: 'contact', contact: 'contact', contacto: 'contact' };
+
+  /* stack: ferramenta mostra onde foi usada */
+  var usesEl = document.getElementById('uses');
+  var usesBase = usesEl.textContent;
+  function usesNames(u) {
+    var d = TD[lang], um = { nps: d.proj.rows[0][1], voz: d.proj.rows[1][1], moneda: d.proj.rows[2][1], fieldcorp: d.fc };
+    return u.split(' ').map(function (k) { return um[k]; }).join(', ');
+  }
+  Array.prototype.slice.call(document.querySelectorAll('.stack span[data-uses]')).forEach(function (el) {
+    function show() {
+      var u = el.getAttribute('data-uses');
+      if (!u) return;
+      usesEl.textContent = el.textContent + ' · ' + T('uses.in') + ' ' + usesNames(u);
+      usesEl.style.color = 'var(--ink)';
+    }
+    function hide() { usesEl.textContent = usesBase; usesEl.style.color = ''; }
+    el.addEventListener('mouseenter', show);
+    el.addEventListener('focus', show);
+    el.addEventListener('mouseleave', hide);
+    el.addEventListener('blur', hide);
+  });
+
+  /* console SQL */
+  var termOut = document.getElementById('termOut');
+  var termIn = document.getElementById('termInput');
+  var termForm = document.getElementById('termForm');
+  var termBtns = Array.prototype.slice.call(document.querySelectorAll('.term-chips button'));
+  function padR(s, n) { return s + new Array(Math.max(0, n - s.length) + 1).join(' '); }
+  function table(tb) {
+    var w = tb.head.map(function (h, i) { return Math.max.apply(null, [h.length].concat(tb.rows.map(function (r) { return r[i].length; }))); });
+    function line(c) { return c.map(function (x, i) { return padR(x, w[i]); }).join(' | '); }
+    var out = [line(tb.head), w.map(function (n) { return new Array(n + 1).join('-'); }).join('-+-')];
+    tb.rows.forEach(function (r) { out.push(line(r)); });
+    out.push('(' + tb.rows.length + (tb.rows.length === 1 ? TD[lang].one : TD[lang].many));
+    return out.join('\n');
+  }
+  function print(text, cls) {
+    var d = document.createElement('div');
+    if (cls) d.className = cls;
+    d.textContent = text;
+    termOut.appendChild(d);
+    termOut.scrollTop = termOut.scrollHeight;
+  }
+  function runCmd(raw) {
+    var shown = raw.trim();
+    if (!shown) return;
+    var cmd = shown.replace(/;+$/, '').replace(/\s+/g, ' ').toLowerCase();
+    print('karen=# ' + shown, 'cmd');
+    if (cmd === 'clear') { termOut.textContent = ''; return; }
+    if (cmd === 'help') { print(TD[lang].help); return; }
+    var m = cmd.match(/^select \* from (\w+)$/) || cmd.match(/^select (\w+)$/);
+    if (m && ALIAS[m[1]]) { print(table(TD[lang][ALIAS[m[1]]])); return; }
+    if (m) { print(TD[lang].errRel.replace('%s', m[1]), 'err'); return; }
+    print(TD[lang].errSyn, 'err');
+  }
+  function termReset() {
+    termOut.textContent = '';
+    print(TD[lang].intro, 'cmd');
+    termIn.placeholder = TD[lang].cmds[1];
+    termBtns.forEach(function (b, i) { b.setAttribute('data-cmd', TD[lang].cmds[i]); });
+  }
+  termForm.addEventListener('submit', function (e) { e.preventDefault(); runCmd(termIn.value); termIn.value = ''; });
+  termBtns.forEach(function (b) {
+    b.addEventListener('click', function () { runCmd(b.getAttribute('data-cmd')); });
+  });
+
+  /* troca de idioma */
+  function setAria() {
+    [['.nav', 'aria.nav'], ['.dots', 'aria.dots'], ['.roles', 'aria.roles'], ['.filters', 'aria.filters'], ['#theme', 'aria.theme'], ['.lang-sw', 'aria.lang']].forEach(function (m) {
+      var el = document.querySelector(m[0]);
+      if (el) el.setAttribute('aria-label', T(m[1]));
+    });
+    Array.prototype.slice.call(document.querySelectorAll('.dots a')).forEach(function (a) { a.setAttribute('aria-label', a.textContent); });
+    Array.prototype.slice.call(document.querySelectorAll('.meter')).forEach(function (mt) { mt.setAttribute('aria-label', T('aria.level').replace('{n}', mt.getAttribute('data-n'))); });
+  }
+  function applyLang(l) {
+    lang = l;
+    root.setAttribute('lang', l === 'pt' ? 'pt-BR' : l);
+    Array.prototype.slice.call(document.querySelectorAll('[data-i18n]')).forEach(function (el) {
+      var v = I18N[el.getAttribute('data-i18n')];
+      if (v) el.textContent = v[l];
+    });
+    document.title = T('title');
+    Array.prototype.slice.call(document.querySelectorAll('.lang-sw button')).forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-l') === l ? 'true' : 'false');
+    });
+    try { localStorage.setItem('portfolio-lang', l); } catch (e) {}
+    usesBase = T('uses.base');
+    usesEl.textContent = usesBase;
+    usesEl.style.color = '';
+    paintLabel();
+    setAria();
+    termReset();
+  }
+  Array.prototype.slice.call(document.querySelectorAll('.lang-sw button')).forEach(function (b) {
+    b.addEventListener('click', function () { applyLang(b.getAttribute('data-l')); });
+  });
+
+  /* copiar e-mail */
+  var copyBtn = document.getElementById('copy');
+  var mail = document.getElementById('mail');
+  var copied = document.getElementById('copied');
+  function selectMail() { var rg = document.createRange(); rg.selectNodeContents(mail); var s = window.getSelection(); s.removeAllRanges(); s.addRange(rg); }
+  copyBtn.addEventListener('click', function () {
+    var txt = mail.textContent.trim();
+    var done = function (m) { copied.textContent = m; setTimeout(function () { copied.textContent = ''; }, 2200); };
+    try {
+      navigator.clipboard.writeText(txt).then(function () { done(T('copied')); }, function () { selectMail(); done(T('copysel')); });
+    } catch (e) { selectMail(); done(T('copysel')); }
+  });
+  /* animações extras */
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* barra de progresso da página */
+  var bar = document.getElementById('progress');
+  var spotEl = document.getElementById('spot');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, Math.max(0, y / max)).toFixed(4) : 0) + ')';
+      if (y > hero.offsetHeight * 0.5) spotEl.style.opacity = 0;
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  /* ordem de entrada dos itens de uma lista */
+  Array.prototype.slice.call(document.querySelectorAll('.chips, .stack dd')).forEach(function (list) {
+    Array.prototype.slice.call(list.children).forEach(function (c, i) { c.style.setProperty('--n', i); });
+  });
+
+  if (fine && !reduce) {
+    /* luz que segue o mouse no cabeçalho */
+    hero.addEventListener('pointermove', function (e) {
+      spotEl.style.setProperty('--mx', e.clientX + 'px');
+      spotEl.style.setProperty('--my', e.clientY + 'px');
+      spotEl.style.opacity = hero.classList.contains('on') ? 1 : 0;
+    });
+    hero.addEventListener('pointerleave', function () { spotEl.style.opacity = 0; });
+
+    /* botões que puxam em direção ao cursor */
+    Array.prototype.slice.call(document.querySelectorAll('.btn')).forEach(function (b) {
+      b.addEventListener('pointermove', function (e) {
+        var r = b.getBoundingClientRect();
+        var dx = (e.clientX - (r.left + r.width / 2)) * 0.2;
+        var dy = (e.clientY - (r.top + r.height / 2)) * 0.3;
+        b.style.transform = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px)';
+      });
+      b.addEventListener('pointerleave', function () { b.style.transform = ''; });
+    });
+  }
+
+  applyLang(lang);
+})();
+</script>
