@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfólio de Karen Longhi: automação de processos, chatbots, tratamento de dados, Power BI e bancos de dados.">
+<meta name="theme-color" content="#08080a">
 <title>Portfólio Karen Longhi</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
 <script>
@@ -398,7 +405,6 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; }
 .dots a span { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s; font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
 .dots a:hover span, .dots a:focus-visible span { opacity: 1; }
 
-@media (max-width: 900px) { .nav .links a:not(.keep) { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; scroll-snap-type: none; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -572,7 +578,38 @@ main { position: relative; isolation: isolate; }
 .edu .award:hover strong { color: var(--accent); }
 .cm-view { max-height: 62svh; overflow: auto; }
 .cm-view img { max-height: none; }
+
+.nav .sec-links { display: contents; }
+@media (max-width: 900px) {
+  html { scroll-padding-top: 104px; }
+  .nav .wrap { flex-wrap: wrap; height: auto; gap: 8px 12px; padding-block: 10px 0; }
+  .nav .brand { margin-right: auto; }
+  .nav .links { display: contents; }
+  .nav .lang-sw { order: 2; }
+  .nav .toggle { order: 3; }
+  .nav .sec-links { order: 4; display: flex; gap: 22px; flex: 1 0 100%; overflow-x: auto; white-space: nowrap; padding: 6px 0 10px; margin-inline: calc(var(--gutter, 16px) * -1); padding-inline: var(--gutter, 16px); scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .nav .sec-links::-webkit-scrollbar { display: none; }
+  .nav .sec-links a { padding: 6px 0; }
+  .hero { min-height: calc(100svh - 104px); }
+}
+@media (max-width: 600px) {
+  .stage { height: 400px; }
+  .fc-a { top: 2%; width: 80%; height: 40%; }
+  .fc-b { width: 54%; height: 34%; }
+  .fc-c { right: 0; top: 40%; width: 54%; height: 42%; }
+  .fc-d { left: 0; bottom: 0; width: 86%; height: 20%; }
+  .flow { gap: 3px; padding: 6px 8px; font-size: 8.5px; }
+  .flow span { padding: 3px 5px; }
+  .cm-panel { padding: 16px; gap: 12px; }
+  .cm-head h3 { font-size: 1.1rem; }
+  .cm-act { width: 100%; }
+  .cm-copy, .cm-verify { flex: 1; text-align: center; }
+  .case { padding: 22px; }
+}
 </style>
+</head>
+<body>
+
 
 <a class="skip" href="#sobre" data-i18n="skip">Pular para o conteúdo</a>
 
@@ -580,13 +617,13 @@ main { position: relative; isolation: isolate; }
   <div class="wrap">
     <a class="brand" href="#topo">Karen Longhi</a>
     <div class="links">
-      <a href="#sobre" data-i18n="nav.sobre">Sobre</a>
+      <div class="sec-links"><a href="#sobre" data-i18n="nav.sobre">Sobre</a>
       <a href="#experiencia" data-i18n="nav.exp">Experiência</a>
       <a href="#projetos" data-i18n="nav.proj">Projetos</a>
       <a href="#certificados" data-i18n="nav.cert">Certificados</a>
       <a href="#stack">Stack</a>
       <a href="#idiomas" data-i18n="nav.idiomas">Idiomas</a>
-      <a class="keep" href="#contato" data-i18n="nav.contato">Contato</a>
+      <a class="keep" href="#contato" data-i18n="nav.contato">Contato</a></div>
       <div class="lang-sw" role="group"><button type="button" data-l="pt" aria-pressed="true">PT</button><button type="button" data-l="en" aria-pressed="false">EN</button><button type="button" data-l="es" aria-pressed="false">ES</button></div>
       <button class="toggle" id="theme" type="button" aria-label="Alternar tema claro e escuro"><i></i><span id="themeLabel">tema</span></button>
     </div>
@@ -1482,3 +1519,5 @@ main { position: relative; isolation: isolate; }
   });
 })();
 </script>
+</body>
+</html>
