@@ -438,10 +438,10 @@ body { font-size: 16px; line-height: 1.4; letter-spacing: -0.01em; }
 
 /* aurora */
 main { position: relative; isolation: isolate; }
-.aurora { position: absolute; z-index: -1; top: 0; left: 0; right: 0; height: min(110svh, 980px); pointer-events: none; overflow: hidden; }
+.aurora { position: absolute; z-index: -1; top: 0; left: 0; right: 0; height: min(135svh, 1180px); pointer-events: none; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,.5) 80%, transparent 100%), linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgba(0,0,0,.5) 80%, transparent 100%), linear-gradient(to right, transparent 0, #000 14%, #000 86%, transparent 100%); mask-composite: intersect; }
 .aurora::before, .aurora::after { content: ""; position: absolute; border-radius: 50%; }
-.aurora::before { left: 50%; bottom: -38%; width: 130%; aspect-ratio: 1.6; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(var(--aur-a), var(--aur-alpha)), rgba(var(--aur-b), calc(var(--aur-alpha) * .38)) 55%, transparent 100%); animation: aurora 16s ease-in-out infinite alternate; }
-.aurora::after { left: 6%; bottom: -26%; width: 60%; aspect-ratio: 1.3; background: radial-gradient(closest-side, rgba(171, 143, 241, calc(var(--aur-alpha) * .6)), transparent 100%); animation: aurora2 21s ease-in-out infinite alternate; }
+.aurora::before { left: 50%; bottom: -4%; width: 130%; aspect-ratio: 1.6; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(var(--aur-a), var(--aur-alpha)), rgba(var(--aur-b), calc(var(--aur-alpha) * .38)) 55%, transparent 100%); animation: aurora 16s ease-in-out infinite alternate; }
+.aurora::after { left: 6%; bottom: 6%; width: 60%; aspect-ratio: 1.3; background: radial-gradient(closest-side, rgba(171, 143, 241, calc(var(--aur-alpha) * .6)), transparent 100%); animation: aurora2 21s ease-in-out infinite alternate; }
 @keyframes aurora { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-46%) translateY(-3%) scale(1.09); } }
 @keyframes aurora2 { from { transform: translate(0, 0); } to { transform: translate(14%, -6%); } }
 
